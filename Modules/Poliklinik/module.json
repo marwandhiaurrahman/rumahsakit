@@ -1,0 +1,13 @@
+{
+    "name": "Poliklinik",
+    "alias": "poliklinik",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Poliklinik\\Providers\\PoliklinikServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

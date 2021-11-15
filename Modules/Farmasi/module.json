@@ -1,0 +1,13 @@
+{
+    "name": "Farmasi",
+    "alias": "farmasi",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Farmasi\\Providers\\FarmasiServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

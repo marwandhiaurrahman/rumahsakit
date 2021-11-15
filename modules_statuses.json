@@ -1,0 +1,8 @@
+{
+    "Poliklinik": true,
+    "Pasien": true,
+    "Dokter": true,
+    "Farmasi": true,
+    "User": true,
+    "Role": true
+}
