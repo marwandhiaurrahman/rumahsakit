@@ -36,7 +36,7 @@ class UserController extends Controller
         $cities = City::where('province_code', $user->province_id)->pluck('name', 'id')->all();
         $districts = District::where('city_code', $user->city_id)->pluck('name', 'id')->all();
         $villages = Village::where('district_code', $user->district_id)->pluck('name', 'id')->all();
-        return view('user::profile', compact('user', 'roles', 'userRole', 'provinces', 'cities', 'districts', 'villages'));
+        return view('user::profil', compact('user', 'roles', 'userRole', 'provinces', 'cities', 'districts', 'villages'));
     }
 
     public function profile_update()
@@ -66,8 +66,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'nik' => 'required|digits:16',
             'name' => 'required',
-            'alamat' => 'required',
             'role' => 'required',
             'phone' => 'required|numeric',
             'email' => 'required|email|unique:users',
@@ -78,8 +78,8 @@ class UserController extends Controller
         $request['password'] =  Hash::make($request->password);
 
         $user = User::updateOrCreate($request->only([
+            'nik',
             'name',
-            'alamat',
             'phone',
             'email',
             'username',

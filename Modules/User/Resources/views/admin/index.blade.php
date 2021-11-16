@@ -26,51 +26,6 @@
                         @endcan
                     </div>
                 </div>
-                {{-- <div class="col-lg-3 col-6">
-                    <div class="small-box bg-info">
-                        <div class="inner">
-                            <h3>150</h3>
-
-                            <p>New Orders</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">
-                            More info <i class="fas fa-arrow-circle-right"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-6">
-                    <div class="small-box bg-warning">
-                        <div class="inner">
-                            <h3>44</h3>
-
-                            <p>User Registrations</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">
-                            More info <i class="fas fa-arrow-circle-right"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-6">
-                    <div class="small-box bg-danger">
-                        <div class="inner">
-                            <h3>65</h3>
-
-                            <p>Unique Visitors</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-chart-pie"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">
-                            More info <i class="fas fa-arrow-circle-right"></i>
-                        </a>
-                    </div>
-                </div> --}}
             </div>
             <div class="card card-secondary">
                 <div class="card-header">
@@ -111,8 +66,8 @@
                                                     <form action="{{ route('admin.user.destroy', $item) }}" method="POST">
                                                         @can('admin-role')
                                                             <a class="btn btn-xs btn-warning"
-                                                                href="{{ route('admin.user.edit', $item) }}" data-toggle="tooltip"
-                                                                title="Edit {{ $item->name }}"><i
+                                                                href="{{ route('admin.user.edit', $item) }}"
+                                                                data-toggle="tooltip" title="Edit {{ $item->name }}"><i
                                                                     class=" fas fa-edit"></i></a>
                                                             @csrf
                                                             @method('DELETE')
@@ -161,12 +116,12 @@
                         </div>
                     @endif
                     <div class="form-group">
-                        <label for="inputName">Nama</label>
-                        {!! Form::text('name', null, ['class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'id' => 'inputName', 'placeholder' => 'Nama', 'autofocus', 'required']) !!}
+                        <label for="iNik">NIK</label>
+                        {!! Form::text('nik', null, ['class' => 'form-control' . ($errors->has('nik') ? ' is-invalid' : ''), 'id' => 'iNik', 'placeholder' => 'NIK', 'autofocus', 'required']) !!}
                     </div>
                     <div class="form-group">
-                        <label for="inputAlamat">Alamat</label>
-                        {!! Form::textarea('alamat', null, ['class' => 'form-control' . ($errors->has('alamat') ? ' is-invalid' : ''), 'rows' => 3, 'id' => 'inputAlamat', 'placeholder' => 'Alamat', 'required']) !!}
+                        <label for="inputName">Nama</label>
+                        {!! Form::text('name', null, ['class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'id' => 'inputName', 'placeholder' => 'Nama', 'required']) !!}
                     </div>
                     <div class="form-group">
                         <label for="inputRoles">Role / Jabatan</label>
@@ -188,21 +143,6 @@
                         <label for="inputPassword">Password</label>
                         {!! Form::password('password', ['class' => 'form-control' . ($errors->has('password') ? ' is-invalid' : ''), 'id' => 'inputPassword', 'placeholder' => 'Password', 'required']) !!}
                     </div>
-
-                    {{-- <div class="form-group">
-                        <label for="inputPhoto">Gambar User</label>
-                        <div class="input-group col-sm-10 col-md-6 col-lg-4">
-                            <div class="custom-file">
-                                {!! Form::file('image', ['class' >= 'custom-file-input', 'id' => 'exampleInputFile', 'required']) !!}
-                            </div>
-                        </div>
-                    </div> --}}
-                    {{-- <div class="form-group">
-                        <label for="checkbox1">Status Publish</label><br>
-                        <input name="status" type="checkbox" id="checkbox1" value="false" checked hidden>
-                        <input name="status" type="checkbox" id="checkbox1" value="true" data-size="small"
-                            data-toggle="toggle">
-                    </div> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Submit</button>
@@ -230,15 +170,6 @@
                 "autoWidth": false,
                 "buttons": ["excel", "pdf", "print", "colvis"],
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
         });
     </script>
 @endsection

@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Role\Http\Controllers\RoleController;
+use Modules\User\Http\Controllers\DependentDropdownController;
 use Modules\User\Http\Controllers\UserController;
-use App\Http\Controllers\DependentDropdownController;
 
 
 /*
@@ -21,20 +21,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('dependent-dropdown', [DependentDropdownController::class, 'index'])
+    ->name('dependent-dropdown.index');
+Route::post('dependent-dropdown', [DependentDropdownController::class, 'store'])
+    ->name('dependent-dropdown.store');
+Route::post('kecamatan', [DependentDropdownController::class, 'kecamatan'])
+    ->name('dependent-dropdown.kecamatan');
+Route::post('desa', [DependentDropdownController::class, 'desa'])
+    ->name('dependent-dropdown.desa');
+
 Auth::routes();
 
-Route::get('/home', function() {
+Route::get('/home', function () {
     return view('home');
 })->name('home')->middleware('auth');
-
-Route::get('dependent-dropdown', [DependentDropdownController::class,'index'])
-    ->name('dependent-dropdown.index');
-Route::post('dependent-dropdown', [DependentDropdownController::class,'store'])
-    ->name('dependent-dropdown.store');
-Route::post('kecamatan', [DependentDropdownController::class,'kecamatan'])
-    ->name('dependent-dropdown.kecamatan');
-Route::post('desa', [DependentDropdownController::class,'desa'])
-    ->name('dependent-dropdown.desa');
 
 Route::get('/profil', [UserController::class, 'profile'])->name('profil')->middleware('auth');
 Route::patch('/profil',  [UserController::class, 'profile_update'])->name('profil.update')->middleware('auth');

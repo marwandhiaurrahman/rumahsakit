@@ -20,7 +20,7 @@ class User extends Authenticatable
     public function adminlte_image()
     {
         if (empty($this->foto)) {
-            return 'https://picsum.photos/300/300';
+            return 'https://picsum.photos/100/100';
         } else {
             return asset('storage/profile-image/' . $this->foto);
         }
@@ -41,6 +41,7 @@ class User extends Authenticatable
         'status_kawin',
         'pekerjaan',
         'kewarganegaraan',
+        'foto',
         'phone',
         'email',
         'username',

@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('status_kawin')->nullable();
             $table->string('pekerjaan')->nullable();
             $table->string('kewarganegaraan')->nullable();
+            $table->string('foto')->nullable();
             $table->string('phone');
             $table->string('email')->unique();
             $table->string('username')->unique();
