@@ -11,6 +11,7 @@ use Laravolt\Indonesia\Models\City;
 use Laravolt\Indonesia\Models\District;
 use Laravolt\Indonesia\Models\Province;
 use Laravolt\Indonesia\Models\Village;
+use Modules\Pasien\Entities\Pasien;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -20,7 +21,7 @@ class User extends Authenticatable
     public function adminlte_image()
     {
         if (empty($this->foto)) {
-            return 'https://picsum.photos/100/100';
+            return asset('image/user.png');
         } else {
             return asset('storage/profile-image/' . $this->foto);
         }
@@ -73,6 +74,10 @@ class User extends Authenticatable
     public function provinsi()
     {
         return $this->belongsTo(Province::class, 'province_id', 'id');
+    }
+    public function pasien()
+    {
+        return $this->hasOne(Pasien::class, 'user_id', 'id');
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Pasien\Http\Controllers\PasienController;
 use Modules\Role\Http\Controllers\RoleController;
 use Modules\User\Http\Controllers\DependentDropdownController;
 use Modules\User\Http\Controllers\UserController;
@@ -42,4 +43,5 @@ Route::patch('/profil',  [UserController::class, 'profile_update'])->name('profi
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('role', RoleController::class);
     Route::resource('user', UserController::class);
+    Route::resource('pasien', PasienController::class);
 });
