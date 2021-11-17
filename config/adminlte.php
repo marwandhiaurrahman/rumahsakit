@@ -285,8 +285,8 @@ return [
             'icon' => 'fas fa-fw fa-hospital-user',
         ],
         [
-            'text' => 'Doktor',
-            'url'  => '#',
+            'text' => 'Dokter',
+            'url'  => 'admin/dokter',
             'icon' => 'fas fa-fw fa-user-md',
         ],
         [

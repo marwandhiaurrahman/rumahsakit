@@ -15,7 +15,10 @@ class CreateDoktersTable extends Migration
     {
         Schema::create('dokters', function (Blueprint $table) {
             $table->id();
-
+            $table->foreignId('user_id')->unsigned()->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('kode')->unique();
+            $table->string('status');
+            $table->string('spesialis');
             $table->timestamps();
         });
     }

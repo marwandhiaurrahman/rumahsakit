@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Laravolt\Indonesia\Seeds\DatabaseSeeder as SeedsDatabaseSeeder;
+use Modules\Pasien\Database\Seeders\PasienDatabaseSeeder;
 use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
 use Modules\User\Database\Seeders\UserDatabaseSeeder;
 
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
             SeedsDatabaseSeeder::class,
             RoleDatabaseSeeder::class,
             UserDatabaseSeeder::class,
+            PasienDatabaseSeeder::class,
         ]);
     }
 }

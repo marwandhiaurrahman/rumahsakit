@@ -2,9 +2,14 @@
 
 namespace Modules\Dokter\Http\Controllers;
 
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Laravolt\Indonesia\Models\Province;
+use Modules\Dokter\Entities\Dokter;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DokterController extends Controller
 {
@@ -14,7 +19,32 @@ class DokterController extends Controller
      */
     public function index()
     {
-        return view('dokter::index');
+        $dokters = Dokter::latest()->get();
+        $provinces = Province::pluck('name', 'code');
+        $agamas = [
+            'Islam' => 'Islam',
+            'Protestan' => 'Protestan',
+            'Katolik' => 'Katolik',
+            'Hindu' => 'Hindu',
+            'Budha' => 'Budha',
+            'Konghucu' => 'Konghucu',
+        ];
+        $kawin = [
+            'Belum Kawin' => 'Belum Kawin',
+            'Kawin' => 'Kawin',
+            'Cerai Hidup' => 'Cerai Hidup',
+            'Cerai Mati' => 'Cerai Mati',
+        ];
+        $spesialis = [
+            'Penyakit Dalam' => 'Penyakit Dalam',
+            'Kebidanan & Kandungan' => 'Kebidanan & Kandungan',
+            'Anak' => 'Anak',
+            'THT-KL' => 'THT-KL',
+            'Kulit & Kelamin' => 'Kulit & Kelamin',
+            'Gigi & Mulut' => 'Gigi & Mulut',
+            'Mata' => 'Mata',
+        ];
+        return view('dokter::admin.index', compact(['dokters', 'spesialis', 'agamas', 'kawin', 'provinces']))->with(['i' => 0]);
     }
 
     /**
@@ -33,7 +63,35 @@ class DokterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+
+        $request->validate([
+            'nik' => 'required|unique:users,nik',
+            'name' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
+            'gender' => 'required',
+            'pekerjaan' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            'username' => 'required|unique:users,username',
+            'password' => 'required',
+        ]);
+
+        $time = Carbon::now();
+        $dokters = Dokter::all();
+        $kode =  'D' . $time->year . $time->month . str_pad($dokters->count() + 1, 3, '0', STR_PAD_LEFT);
+
+        $user = User::create($request->all());
+        $user->assignRole('Pasien');
+        Dokter::create([
+            'user_id' => $user->id,
+            'kode' => $kode,
+            'status' => 1,
+            'spesialis' => $request->pekerjaan,
+        ]);
+        Alert::success('Success Info', 'Success Message');
+        return redirect()->route('admin.dokter.index');
     }
 
     /**
