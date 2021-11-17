@@ -1,0 +1,13 @@
+{
+    "name": "Perawatan",
+    "alias": "perawatan",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Perawatan\\Providers\\PerawatanServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

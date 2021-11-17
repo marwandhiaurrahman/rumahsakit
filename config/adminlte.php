@@ -249,7 +249,7 @@ return [
         ['header' => 'PELAYANAN'],
         [
             'text' => 'Rawat Jalan',
-            'url'  => '#',
+            'url'  => 'admin/rawat-jalan',
             'icon' => 'fas fa-fw fa-clinic-medical',
         ],
         [

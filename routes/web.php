@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Dokter\Http\Controllers\DokterController;
 use Modules\Pasien\Http\Controllers\PasienController;
+use Modules\RawatJalan\Http\Controllers\RawatJalanController;
 use Modules\Role\Http\Controllers\RoleController;
 use Modules\User\Http\Controllers\DependentDropdownController;
 use Modules\User\Http\Controllers\UserController;
@@ -46,5 +47,5 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('user', UserController::class);
     Route::resource('pasien', PasienController::class);
     Route::resource('dokter', DokterController::class);
-
+    Route::resource('rawat-jalan', RawatJalanController::class);
 });

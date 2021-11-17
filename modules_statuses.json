@@ -4,5 +4,7 @@
     "Dokter": true,
     "Farmasi": true,
     "User": true,
-    "Role": true
+    "Role": true,
+    "Perawatan": true,
+    "RawatJalan": true
 }

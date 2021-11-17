@@ -1,0 +1,13 @@
+{
+    "name": "RawatJalan",
+    "alias": "rawatjalan",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RawatJalan\\Providers\\RawatJalanServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
