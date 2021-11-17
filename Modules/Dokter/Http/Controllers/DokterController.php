@@ -36,11 +36,10 @@ class DokterController extends Controller
             'Cerai Mati' => 'Cerai Mati',
         ];
         $spesialis = [
+            'Umum' => 'Umum',
             'Penyakit Dalam' => 'Penyakit Dalam',
-            'Kebidanan & Kandungan' => 'Kebidanan & Kandungan',
             'Anak' => 'Anak',
             'THT-KL' => 'THT-KL',
-            'Kulit & Kelamin' => 'Kulit & Kelamin',
             'Gigi & Mulut' => 'Gigi & Mulut',
             'Mata' => 'Mata',
         ];

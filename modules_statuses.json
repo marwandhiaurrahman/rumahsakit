@@ -6,5 +6,6 @@
     "User": true,
     "Role": true,
     "Perawatan": true,
-    "RawatJalan": true
+    "RawatJalan": true,
+    "Resep": true
 }

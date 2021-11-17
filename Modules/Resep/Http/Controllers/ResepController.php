@@ -1,16 +1,12 @@
 <?php
 
-namespace Modules\RawatJalan\Http\Controllers;
+namespace Modules\Resep\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Laravolt\Indonesia\Models\Province;
-use Modules\Dokter\Entities\Dokter;
-use Modules\Pasien\Entities\Pasien;
-use Modules\Perawatan\Entities\Perawatan;
 
-class RawatJalanController extends Controller
+class ResepController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,19 +14,7 @@ class RawatJalanController extends Controller
      */
     public function index()
     {
-        $perawatans = Perawatan::latest()->get();
-        $dokters = Dokter::latest()->get();
-        $pasiens = Pasien::latest()->get();
-        dd($pasiens);
-        $spesialis = [
-            'Umum' => 'Umum',
-            'Penyakit Dalam' => 'Penyakit Dalam',
-            'Anak' => 'Anak',
-            'THT-KL' => 'THT-KL',
-            'Gigi & Mulut' => 'Gigi & Mulut',
-            'Mata' => 'Mata',
-        ];
-        return view('rawatjalan::admin.index', compact(['dokters', 'spesialis', 'agamas', 'kawin', 'provinces']))->with(['i' => 0]);
+        return view('resep::index');
     }
 
     /**
@@ -39,7 +23,7 @@ class RawatJalanController extends Controller
      */
     public function create()
     {
-        return view('rawatjalan::create');
+        return view('resep::create');
     }
 
     /**
@@ -59,7 +43,7 @@ class RawatJalanController extends Controller
      */
     public function show($id)
     {
-        return view('rawatjalan::show');
+        return view('resep::show');
     }
 
     /**
@@ -69,7 +53,7 @@ class RawatJalanController extends Controller
      */
     public function edit($id)
     {
-        return view('rawatjalan::edit');
+        return view('resep::edit');
     }
 
     /**
