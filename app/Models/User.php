@@ -59,21 +59,23 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+
+
     public function desa()
     {
-        return $this->belongsTo(Village::class, 'village_id', 'id');
+        return $this->belongsTo(Village::class, 'village_id', 'code');
     }
     public function kecamatan()
     {
-        return $this->belongsTo(District::class, 'district_id', 'id');
+        return $this->belongsTo(District::class, 'district_id', 'code');
     }
     public function kabupaten()
     {
-        return $this->belongsTo(City::class, 'city_id', 'id');
+        return $this->belongsTo(City::class, 'city_id', 'code');
     }
     public function provinsi()
     {
-        return $this->belongsTo(Province::class, 'province_id', 'id');
+        return $this->belongsTo(Province::class, 'province_id', 'code');
     }
     public function pasien()
     {

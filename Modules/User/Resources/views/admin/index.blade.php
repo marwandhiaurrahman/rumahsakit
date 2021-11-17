@@ -43,6 +43,7 @@
                                             <th>Name</th>
                                             <th>Username</th>
                                             <th>Email</th>
+                                            <th>Alamat</th>
                                             <th>Role</th>
                                             <th>Action</th>
                                         </tr>
@@ -54,6 +55,12 @@
                                                 <td>{{ $item->name }}</td>
                                                 <td>{{ $item->username }}</td>
                                                 <td>{{ $item->email }}</td>
+                                                <td>
+                                                    @empty(!$item->desa && !$item->kecamatan && !$item->kabupaten)
+                                                        {{ $item->desa->name }} , {{ $item->kecamatan->name }} ,
+                                                        {{ $item->kabupaten->name }}
+                                                    @endempty
+                                                </td>
                                                 <td>
                                                     @if (!empty($item->getRoleNames()))
                                                         @foreach ($item->getRoleNames() as $v)

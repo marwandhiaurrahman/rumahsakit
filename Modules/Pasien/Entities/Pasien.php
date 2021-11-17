@@ -5,6 +5,7 @@ namespace Modules\Pasien\Entities;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravolt\Indonesia\Models\Village;
 
 class Pasien extends Model
 {
@@ -22,5 +23,21 @@ class Pasien extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function desa()
+    {
+        return $this->user->desa();
+    }
+    public function kecamatan()
+    {
+        return $this->user->kecamatan();
+    }
+    public function kabupaten()
+    {
+        return $this->user->kabupaten();
+    }
+    public function provinsi()
+    {
+        return $this->user->provinsi();
     }
 }

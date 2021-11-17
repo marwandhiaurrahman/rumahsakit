@@ -57,9 +57,10 @@
                                         <tr>
                                             <th>No.</th>
                                             <th>Name</th>
-                                            <th>Alamat</th>
                                             <th>Umur</th>
-                                            <th>Status</th>
+                                            <th>Gender</th>
+                                            <th>Alamat</th>
+                                            <th>Berobat</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -68,17 +69,18 @@
                                             <tr>
                                                 <td>{{ ++$i }}</td>
                                                 <td>{{ $item->user->name }}</td>
-                                                <td>{{ $item->user->village_id }}, {{ $item->user->district_id }}</td>
-                                                <td>{{  Carbon\Carbon::parse($item->user->tanggal_lahir)  }}</td>
+                                                <td>{{ Carbon\Carbon::parse($item->user->tanggal_lahir)->diffInYears(Carbon\Carbon::now()) }}
+                                                    tahun</td>
+                                                <td>{{ $item->user->gender }}</td>
                                                 <td>
-                                                    @if ($item->status)
-                                                        <label class="badge badge-danger">Sakit</label>
-                                                    @else
-                                                        <label class="badge badge-success">Sehat</label>
-                                                    @endif
+                                                    @empty(!$item->desa && !$item->kecamatan && !$item->kabupaten)
+                                                        {{ $item->desa->name }} ,
+                                                        {{ $item->kecamatan->name }} ,
+                                                        {{ $item->kabupaten->name }}
+                                                    @endempty
                                                 </td>
+                                                <td></td>
                                                 <td>
-
                                                     <form action="{{ route('admin.user.destroy', $item) }}" method="POST">
                                                         @can('admin-role')
                                                             <a class="btn btn-xs btn-warning"

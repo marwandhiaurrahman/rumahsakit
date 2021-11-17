@@ -77,6 +77,7 @@ class PasienController extends Controller
         $kodetransaksi =  $time->year . $time->month . str_pad($time->day, 2, '0', STR_PAD_LEFT) . str_pad($pasiens->count() + 1, 3, '0', STR_PAD_LEFT);
 
         $user = User::create($request->all());
+        $user->assignRole('Pasien');
         Pasien::create([
             'user_id' => $user->id,
             'kode' => $kodetransaksi,
