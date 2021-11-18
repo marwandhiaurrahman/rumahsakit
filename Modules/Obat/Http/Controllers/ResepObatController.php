@@ -1,12 +1,16 @@
 <?php
 
-namespace Modules\Farmasi\Http\Controllers;
+namespace Modules\Obat\Http\Controllers;
 
+use Darryldecode\Cart\Cart;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Obat\Entities\Obat;
+use RealRashid\SweetAlert\Facades\Alert;
 
-class FarmasiController extends Controller
+
+class ResepObatController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +18,7 @@ class FarmasiController extends Controller
      */
     public function index()
     {
-        return view('farmasi::index');
+        return view('obat::index');
     }
 
     /**
@@ -23,7 +27,7 @@ class FarmasiController extends Controller
      */
     public function create()
     {
-        return view('farmasi::create');
+        return view('obat::create');
     }
 
     /**
@@ -33,7 +37,21 @@ class FarmasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $obat = Obat::find($request->obat_id);
+
+        $cart = \Cart::session($request->kode)->add(array(
+            'id' => $obat->id,
+            'name' => $obat->name,
+            'price' => $obat->harga,
+            'quantity' => $request->stok,
+            'attributes' => [
+                'dosis'=>$request->dosis,
+                'keterangan'=>$request->keterangan,
+                'status'=>0,
+            ],
+        ));
+        Alert::success('Success Info', 'Success Message');
+        return redirect()->route('admin.rawat-jalan.edit',$request->kode);
     }
 
     /**
@@ -43,7 +61,7 @@ class FarmasiController extends Controller
      */
     public function show($id)
     {
-        return view('farmasi::show');
+        return view('obat::show');
     }
 
     /**
@@ -53,7 +71,7 @@ class FarmasiController extends Controller
      */
     public function edit($id)
     {
-        return view('farmasi::edit');
+        return view('obat::edit');
     }
 
     /**

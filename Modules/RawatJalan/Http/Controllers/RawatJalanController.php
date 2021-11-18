@@ -7,6 +7,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Dokter\Entities\Dokter;
+use Modules\Obat\Entities\Obat;
 use Modules\Pasien\Entities\Pasien;
 use Modules\Perawatan\Entities\Perawatan;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -14,10 +15,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class RawatJalanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
+
     public function index()
     {
         $perawatans = Perawatan::latest()->get();
@@ -32,23 +30,13 @@ class RawatJalanController extends Controller
             'Gigi & Mulut' => 'Gigi & Mulut',
             'Mata' => 'Mata',
         ];
-        return view('rawatjalan::admin.index', compact(['dokters', 'pasiens', 'perawatans', 'spesialis',]))->with(['i' => 0]);
+        $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pengambilan obat', 'Selesai'];
+        return view('rawatjalan::admin.index', compact(['dokters',  'pasiens', 'perawatans', 'spesialis',]))->with(['i' => 0]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
     public function create()
     {
         return view('rawatjalan::create');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
     public function store(Request $request)
     {
 
@@ -71,26 +59,14 @@ class RawatJalanController extends Controller
         Alert::success('Success Info', 'Success Message');
         return redirect()->route('admin.rawat-jalan.index');
     }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
     public function show($id)
     {
         return view('rawatjalan::show');
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
     public function edit($id)
     {
         $perawatan = Perawatan::where('kode', $id)->first();
-        // dd($perawatan);
+        $obats = Obat::latest()->get();
         $spesialis = [
             'Umum' => 'Umum',
             'Penyakit Dalam' => 'Penyakit Dalam',
@@ -99,15 +75,12 @@ class RawatJalanController extends Controller
             'Gigi & Mulut' => 'Gigi & Mulut',
             'Mata' => 'Mata',
         ];
-        return view('rawatjalan::admin.edit', compact(['perawatan', 'spesialis']));
-    }
+        $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pengambilan obat', 'Selesai'];
+        $reseps = \Cart::session($id);
+        // dd($reseps->getContent());
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
+        return view('rawatjalan::admin.edit', compact(['perawatan', 'reseps', 'status', 'obats', 'spesialis']))->with(['i' => 0]);
+    }
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -122,12 +95,6 @@ class RawatJalanController extends Controller
         Alert::success('Success Info', 'Success Message');
         return redirect()->route('admin.rawat-jalan.index');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
     public function destroy($id)
     {
         //

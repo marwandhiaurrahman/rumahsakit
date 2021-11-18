@@ -252,11 +252,11 @@ return [
             'url'  => 'admin/rawat-jalan',
             'icon' => 'fas fa-fw fa-clinic-medical',
         ],
-        [
-            'text' => 'Rawat Inap',
-            'url'  => '#',
-            'icon' => 'fas fa-fw fa-clinic-medical',
-        ],
+        // [
+        //     'text' => 'Rawat Inap',
+        //     'url'  => '#',
+        //     'icon' => 'fas fa-fw fa-clinic-medical',
+        // ],
         [
             'text' => 'Apotek',
             'url'  => '#',
@@ -289,21 +289,21 @@ return [
             'url'  => 'admin/dokter',
             'icon' => 'fas fa-fw fa-user-md',
         ],
-        [
-            'text' => 'Ruangan',
-            'url'  => '#',
-            'icon' => 'fas fa-fw fa-hospital',
-        ],
+        // [
+        //     'text' => 'Ruangan',
+        //     'url'  => '#',
+        //     'icon' => 'fas fa-fw fa-hospital',
+        // ],
         [
             'text' => 'Obat',
             'url'  => 'admin/obat',
             'icon' => 'fas fa-fw fa-tablets',
         ],
-        [
-            'text' => 'Penyakit',
-            'url'  => '#',
-            'icon' => 'fas fa-fw fa-stethoscope',
-        ],
+        // [
+        //     'text' => 'Penyakit',
+        //     'url'  => '#',
+        //     'icon' => 'fas fa-fw fa-stethoscope',
+        // ],
         ['header' => 'PENGATURAN AKUN'],
         [
             'text' => 'Profile',

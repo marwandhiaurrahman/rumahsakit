@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Resep\Entities;
+namespace Modules\Obat\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,6 +13,6 @@ class Resep extends Model
     
     protected static function newFactory()
     {
-        return \Modules\Resep\Database\factories\ResepFactory::new();
+        return \Modules\Obat\Database\factories\ResepFactory::new();
     }
 }

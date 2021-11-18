@@ -15,7 +15,12 @@ class CreateResepsTable extends Migration
     {
         Schema::create('reseps', function (Blueprint $table) {
             $table->id();
-
+            $table->string('kode')->unique();
+            $table->string('dosis');
+            $table->string('keterangan')->nullable();
+            $table->bigInteger('stok');
+            $table->bigInteger('harga');
+            $table->string('status');
             $table->timestamps();
         });
     }

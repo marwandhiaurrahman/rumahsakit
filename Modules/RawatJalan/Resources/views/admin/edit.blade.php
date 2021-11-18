@@ -23,23 +23,23 @@
                             </div>
                             <div class="form-group">
                                 <label for="iTanggal">Tanggal</label>
-                                {!! Form::date('tanggal', null, ['class' => 'form-control', 'id' => 'iTanggal']) !!}
+                                {!! Form::date('tanggal', $perawatan->tanggal, ['class' => 'form-control', 'id' => 'iTanggal']) !!}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="iSpesialis">Poliklinik</label>
-                                {!! Form::select('spesialis', $spesialis, null, ['class' => 'form-control', 'id' => 'iSpesialis']) !!}
+                                {!! Form::select('spesialis', $spesialis, $perawatan->spesialis, ['class' => 'form-control', 'id' => 'iSpesialis']) !!}
                             </div>
                             <div class="form-group">
                                 <label for="iStatus">Status</label>
-                                {!! Form::select('status', ['Menunggu antrian', 'Selesai'], null, ['class' => 'form-control', 'id' => 'iStatus']) !!}
+                                {!! Form::select('status', $status, $perawatan->status, ['class' => 'form-control', 'id' => 'iStatus']) !!}
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="iKeluhan">Keluhan</label>
-                                {!! Form::textarea('keluhan', null, ['class' => 'form-control', 'id' => 'iKeluhan', 'rows' => '3']) !!}
+                                {!! Form::textarea('keluhan', $perawatan->keluhan, ['class' => 'form-control', 'id' => 'iKeluhan', 'rows' => '3']) !!}
                             </div>
                         </div>
                     </div>
@@ -103,7 +103,8 @@
                                     {!! Form::textarea('analisis', null, ['class' => 'form-control' . ($errors->has('cek') ? ' is-invalid' : ''), 'id' => 'iAnalisis', 'rows' => '3', 'required', 'placeholder' => 'Masukan Hasil Analisis Dokter']) !!}
                                 </div>
                                 {{-- </div> --}}
-                                <a href="#" class="btn btn-primary btn-xs mb-3">Tambah Resep Obat</a>
+                                <a href="#" class="btn btn-primary btn-xs mb-3" data-toggle="modal"
+                                    data-target="#createObat">Tambah Obat</a>
                                 <table id="example1" class="table table-bordered table-striped dataTable dtr-inline"
                                     role="grid" aria-describedby="example1_info">
                                     <thead>
@@ -112,11 +113,29 @@
                                             <th>Nama Obat</th>
                                             <th>Dosis</th>
                                             <th>Keterangan</th>
+                                            <th>Satuan x Harga</th>
+                                            <th>Jumlah</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($reseps->getContent() as $item)
+                                            <tr>
+                                                <td>{{ ++$i }}</td>
+                                                <td>{{ $item->name }}</td>
+                                                <td>{{ $item->attributes->dosis }}</td>
+                                                <td>{{ $item->attributes->keterangan }}</td>
+                                                <td>@ {{ $item->quantity }} x {{ money($item->price, 'IDR') }}</td>
+                                                <td>{{ money($item->quantity * $item->price, 'IDR') }}</td>
+                                                <td>
+                                                    @if ($item->attributes->status == 0)
+                                                    <label class="badge badge-danger">Menunggu Konfirmasi</label>
+                                                    @endif
+                                                </td>
+                                                <td>delelte</td>
+                                            </tr>
+                                        @endforeach
                                         {{-- @foreach ($perawatans as $item)
                                             <tr>
                                                 <td>{{ ++$i }}</td>
@@ -175,4 +194,95 @@
         </div>
     </div>
     {!! Form::close() !!}
+    <div class="modal fade" id="createObat" tabindex="-1" role="dialog" aria-labelledby="createObat" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title" id="createModalLabel">Daftar Rawat Jalan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {!! Form::open(['route' => 'admin.resep-obat.store', 'method' => 'POST', 'files' => true]) !!}
+                <div class="modal-body">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <strong>Whoops!</strong> Ada kesalahan input.<br><br>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    {!! Form::hidden('kode', $perawatan->kode) !!}
+                    <div class="form-group">
+                        <label for="iObat" class="form-label">Obat</label>
+                        <select name="obat_id" id="obat_id" class="form-control">
+                            <option value="">Pilih Obat</option>
+                            @foreach ($obats as $item)
+                                <option value="{{ $item->id }}"> {{ $item->name }} ( tersedia {{ $item->stok }}
+                                    {{ $item->satuan }})</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="iSatuan" class="form-label">Jumlah Pembelian</label>
+                        {!! Form::number('stok', null, ['class' => 'form-control' . ($errors->has('stok') ? ' is-invalid' : ''), 'id' => 'iSatuan', 'required', 'placeholder' => 'Jumlah Pembelian']) !!}
+                    </div>
+                    <div class="form-group">
+                        <label for="iDosis" class="form-label">Dosis</label>
+                        {!! Form::text('dosis', null, ['class' => 'form-control' . ($errors->has('dosis') ? ' is-invalid' : ''), 'id' => 'iDosis', 'required', 'placeholder' => 'Keterangan Dosis Penggunaan']) !!}
+                    </div>
+                    <div class="form-group">
+                        <label for="iKeterangan" class="form-label">Keterangan</label>
+                        {!! Form::text('keterangan', null, ['class' => 'form-control' . ($errors->has('keterangan') ? ' is-invalid' : ''), 'id' => 'iKeterangan', 'required', 'placeholder' => 'Keterangan Dosis Penggunaan']) !!}
+                    </div>
+                    <div class="card card-warning">
+                        <div class="card-header">
+                            <h3 class="card-title">Data Detail Obat</h3>
+                        </div>
+                        <div class="card-body">
+                            <dl class="row">
+                                <dt class="col-sm-2">Kode</dt>
+                                <dd class="col-sm-10">123123123</dd>
+                                <dt class="col-sm-2">NIK</dt>
+                                <dd class="col-sm-10">1234123412341234</dd>
+                                <dt class="col-sm-2">Nama</dt>
+                                <dd class="col-sm-10">Marwan Dhiaur Rahman</dd>
+                                <dt class="col-sm-2">TTL</dt>
+                                <dd class="col-sm-10">Cirebon, 9 Mei 1998</dd>
+                                <dt class="col-sm-2">Umur</dt>
+                                <dd class="col-sm-10">23 Tahun</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
 @stop
+@section('plugins.Datatables', true)
+
+@section('js')
+    <script type="text/javascript">
+        @if ($errors->any())
+            $('#createObat').modal('show');
+        @endif
+    </script>
+    <script>
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["excel", "pdf", "print", "colvis"],
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+@endsection

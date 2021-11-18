@@ -65,7 +65,13 @@
                                                         <label class="badge badge-danger">Menunggu antrian</label>
                                                     @endif
                                                     @if ($item->status == 1)
-                                                        <label class="badge badge-warning">Telah dicek dokter</label>
+                                                        <label class="badge badge-warning">Pengecekan oleh dokter</label>
+                                                    @endif
+                                                    @if ($item->status == 2)
+                                                        <label class="badge badge-warning">Pengambilan obat</label>
+                                                    @endif
+                                                    @if ($item->status == 3)
+                                                        <label class="badge badge-success">Selesai</label>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -241,64 +247,6 @@
                 "autoWidth": false,
                 "buttons": ["excel", "pdf", "print", "colvis"],
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        });
-    </script>
-
-    <script>
-        $(function() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $('#province_id').on('change', function() {
-                $.ajax({
-                    url: '{{ route('dependent-dropdown.store') }}',
-                    method: 'POST',
-                    data: {
-                        id: $(this).val()
-                    },
-                    success: function(response) {
-                        $('#city_id').empty();
-
-                        $.each(response, function(id, name) {
-                            $('#city_id').append(new Option(name, id))
-                        })
-                    }
-                })
-            });
-            $('#city_id').on('change', function() {
-                $.ajax({
-                    url: '{{ route('dependent-dropdown.kecamatan') }}',
-                    method: 'POST',
-                    data: {
-                        id: $(this).val()
-                    },
-                    success: function(response) {
-                        $('#district_id').empty();
-
-                        $.each(response, function(id, name) {
-                            $('#district_id').append(new Option(name, id))
-                        })
-                    }
-                })
-            });
-            $('#district_id').on('change', function() {
-                $.ajax({
-                    url: '{{ route('dependent-dropdown.desa') }}',
-                    method: 'POST',
-                    data: {
-                        id: $(this).val()
-                    },
-                    success: function(response) {
-                        $('#village_id').empty();
-
-                        $.each(response, function(id, name) {
-                            $('#village_id').append(new Option(name, id))
-                        })
-                    }
-                })
-            });
         });
     </script>
 @endsection
