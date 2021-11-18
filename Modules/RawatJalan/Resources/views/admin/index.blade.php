@@ -75,21 +75,17 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <form action="{{ route('admin.user.destroy', $item) }}" method="POST">
-                                                        @can('admin-role')
-                                                            <a class="btn btn-xs btn-warning"
-                                                                href="{{ route('admin.rawat-jalan.edit', $item->kode) }}"
-                                                                data-toggle="tooltip" title="Edit {{ $item->kode }}"><i
-                                                                    class=" fas fa-edit"></i></a>
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-xs btn-danger"
-                                                                data-toggle="tooltip" title="Hapus {{ $item->name }}">
-                                                                <i class="fas fa-trash-alt"
-                                                                    onclick="return confirm('Are you sure you want to delete this item ?')"></i>
-                                                            </button>
-                                                        @endcan
-                                                    </form>
+                                                    <a class="btn btn-xs btn-warning"
+                                                        href="{{ route('admin.rawat-jalan.edit', $item->kode) }}"
+                                                        data-toggle="tooltip" title="Edit {{ $item->kode }}"><i
+                                                            class=" fas fa-edit"></i></a>
+                                                    <a href="{{ route('admin.rawat-jalan.destroy', $item->id) }}"
+                                                        class="btn btn-xs btn-danger"
+                                                        onclick="return confirm('Are you sure you want to delete this item ?')"
+                                                        data-toggle="tooltip" title="Hapus {{ $item->name }}"
+                                                        data-method="delete">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         @endforeach

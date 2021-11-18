@@ -7,6 +7,8 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Obat\Entities\Obat;
+use Modules\Obat\Entities\Resep;
+use Modules\Perawatan\Entities\Perawatan;
 use RealRashid\SweetAlert\Facades\Alert;
 
 
@@ -38,20 +40,23 @@ class ResepObatController extends Controller
     public function store(Request $request)
     {
         $obat = Obat::find($request->obat_id);
+        $perawatan = Perawatan::where('kode', $request->kode)->first();
+        if (!empty($obat)) {
+            $request['harga'] = $obat->harga;
+            $request['name'] = $obat->name;
+            $request['status'] = 0;
+            $request['perawatan_id'] = $perawatan->id;
+        } else {
+            $request['status'] = 0;
+            $request['perawatan_id'] = $perawatan->id;
+        }
 
-        $cart = \Cart::session($request->kode)->add(array(
-            'id' => $obat->id,
-            'name' => $obat->name,
-            'price' => $obat->harga,
-            'quantity' => $request->stok,
-            'attributes' => [
-                'dosis'=>$request->dosis,
-                'keterangan'=>$request->keterangan,
-                'status'=>0,
-            ],
-        ));
+            // dd($request->all());
+
+        Resep::updateOrCreate($request->except(['_token', 'kode']));
+
         Alert::success('Success Info', 'Success Message');
-        return redirect()->route('admin.rawat-jalan.edit',$request->kode);
+        return redirect()->route('admin.rawat-jalan.edit', $request->kode);
     }
 
     /**
@@ -61,7 +66,11 @@ class ResepObatController extends Controller
      */
     public function show($id)
     {
-        return view('obat::show');
+        $resep = Resep::find($id);
+        $resep->delete();
+
+        Alert::success('Success Info', 'Success Message');
+        return redirect()->back();
     }
 
     /**
@@ -92,6 +101,5 @@ class ResepObatController extends Controller
      */
     public function destroy($id)
     {
-        //
     }
 }

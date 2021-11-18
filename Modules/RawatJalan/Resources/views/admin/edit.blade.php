@@ -105,6 +105,7 @@
                                 {{-- </div> --}}
                                 <a href="#" class="btn btn-primary btn-xs mb-3" data-toggle="modal"
                                     data-target="#createObat">Tambah Obat</a>
+                                <a href="#" class="btn btn-success btn-xs mb-3" >Konfirmasi Resep Obat</a>
                                 <table id="example1" class="table table-bordered table-striped dataTable dtr-inline"
                                     role="grid" aria-describedby="example1_info">
                                     <thead>
@@ -120,59 +121,43 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($reseps->getContent() as $item)
+                                        @foreach ($reseps as $item)
                                             <tr>
                                                 <td>{{ ++$i }}</td>
-                                                <td>{{ $item->name }}</td>
-                                                <td>{{ $item->attributes->dosis }}</td>
-                                                <td>{{ $item->attributes->keterangan }}</td>
-                                                <td>@ {{ $item->quantity }} x {{ money($item->price, 'IDR') }}</td>
-                                                <td>{{ money($item->quantity * $item->price, 'IDR') }}</td>
+                                                <td>{{ $item->obat->name }}</td>
+                                                <td>{{ $item->dosis }}</td>
+                                                <td>{{ $item->obat->manfaat }}<br>{{ $item->keterangan }}</td>
+                                                <td>@ {{ $item->stok }} x {{ money($item->harga, 'IDR') }}</td>
+                                                <td>{{ money($item->stok * $item->harga, 'IDR') }}</td>
                                                 <td>
-                                                    @if ($item->attributes->status == 0)
-                                                    <label class="badge badge-danger">Menunggu Konfirmasi</label>
+                                                    @if ($item->status == 0)
+                                                        <label class="badge badge-danger">Menunggu konfirmasi dokter</label>
                                                     @endif
                                                 </td>
-                                                <td>delelte</td>
+                                                <td>
+                                                    <a href="{{ route('admin.resep-obat.destroy', $item->id) }}"
+                                                        class="btn btn-xs btn-danger"
+                                                        onclick="return confirm('Are you sure you want to delete this item ?')"
+                                                        data-toggle="tooltip" title="Hapus {{ $item->name }}"
+                                                        data-method="delete">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                </td>
                                             </tr>
                                         @endforeach
-                                        {{-- @foreach ($perawatans as $item)
-                                            <tr>
-                                                <td>{{ ++$i }}</td>
-                                                <td>{{ $item->kode }}</td>
-                                                <td>{{ Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
-                                                <td>{{ $item->pasien->user->name }}</td>
-                                                <td>{{ Carbon\Carbon::parse($item->pasien->user->tanggal_lahir)->diffInYears(Carbon\Carbon::now()) }}
-                                                    tahun</td>
-                                                <td>{{ $item->spesialis }}</td>
-                                                <td>{{ $item->dokter->user->name }}</td>
-                                                <td>
-                                                    @if ($item->status == 'Menunggu antrian')
-                                                        <label class="badge badge-danger">Menunggu antrian</label>
-                                                    @else
-                                                        <label class="badge badge-success">Non-Aktif</label>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <form action="{{ route('admin.user.destroy', $item) }}" method="POST">
-                                                        @can('admin-role')
-                                                            <a class="btn btn-xs btn-warning"
-                                                                href="{{ route('admin.rawat-jalan.edit', $item->kode) }}"
-                                                                data-toggle="tooltip" title="Edit {{ $item->kode }}"><i
-                                                                    class=" fas fa-edit"></i></a>
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-xs btn-danger"
-                                                                data-toggle="tooltip" title="Hapus {{ $item->name }}">
-                                                                <i class="fas fa-trash-alt"
-                                                                    onclick="return confirm('Are you sure you want to delete this item ?')"></i>
-                                                            </button>
-                                                        @endcan
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach --}}
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="5">
+                                                Total
+                                            </th>
+                                            <th>
+                                                {{ $reseps->sum('harga') }}
+                                            </th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -198,7 +183,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-success">
-                    <h5 class="modal-title" id="createModalLabel">Daftar Rawat Jalan</h5>
+                    <h5 class="modal-title" id="createModalLabel">Tambah Obat untuk Perawatan</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -256,6 +241,52 @@
                                 <dd class="col-sm-10">23 Tahun</dd>
                             </dl>
                         </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="createJasa" tabindex="-1" role="dialog" aria-labelledby="createJasa"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title" id="createModalLabel">Tambah Jasa untuk Perawatan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {!! Form::open(['route' => 'admin.resep-obat.store', 'method' => 'POST', 'files' => true]) !!}
+                <div class="modal-body">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <strong>Whoops!</strong> Ada kesalahan input.<br><br>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    {!! Form::hidden('kode', $perawatan->kode) !!}
+                    <div class="form-group">
+                        <label for="iNama" class="form-label">Jasa Dokter </label>
+                        {!! Form::hidden('name', 'Jasa Dokter',) !!}
+                        {!! Form::text('dosis', null, ['class' => 'form-control' . ($errors->has('dosis') ? ' is-invalid' : ''), 'id' => 'iNama', 'required', 'placeholder' => 'Keterangan Jasa Dokter']) !!}
+                    </div>
+                    <div class="form-group">
+                        <label for="iHarga" class="form-label">Harga </label>
+                        {!! Form::hidden('stok', 1,) !!}
+                        {!! Form::number('harga', null, ['class' => 'form-control' . ($errors->has('harga') ? ' is-invalid' : ''), 'id' => 'iHarga', 'required', 'placeholder' => 'Harga Jasa Dokter']) !!}
+                    </div>
+                    <div class="form-group">
+                        <label for="iKeterangan" class="form-label">Keterangan</label>
+                        {!! Form::textarea('keterangan', null, ['class' => 'form-control' . ($errors->has('keterangan') ? ' is-invalid' : ''), 'id' => 'iKeterangan', 'rows'=>3, 'placeholder' => 'Keterangan Tambahan']) !!}
                     </div>
                 </div>
                 <div class="modal-footer">

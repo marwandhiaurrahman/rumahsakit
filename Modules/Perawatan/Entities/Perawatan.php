@@ -5,6 +5,7 @@ namespace Modules\Perawatan\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Dokter\Entities\Dokter;
+use Modules\Obat\Entities\Resep;
 use Modules\Pasien\Entities\Pasien;
 
 class Perawatan extends Model
@@ -26,5 +27,9 @@ class Perawatan extends Model
     public function dokter()
     {
         return $this->belongsTo(Dokter::class);
+    }
+    public function reseps()
+    {
+        return $this->hasMany(Resep::class, 'perawatan_id', 'id');
     }
 }

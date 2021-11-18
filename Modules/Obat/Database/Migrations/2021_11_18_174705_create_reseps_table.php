@@ -15,7 +15,9 @@ class CreateResepsTable extends Migration
     {
         Schema::create('reseps', function (Blueprint $table) {
             $table->id();
-            $table->string('kode')->unique();
+            $table->foreignId('perawatan_id')->unsigned()->references('id')->on('perawatans');
+            $table->foreignId('obat_id')->nullable()->unsigned()->references('id')->on('obats');
+            $table->string('name');
             $table->string('dosis');
             $table->string('keterangan')->nullable();
             $table->bigInteger('stok');

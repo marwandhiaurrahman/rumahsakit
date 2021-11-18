@@ -54,14 +54,18 @@ class RawatJalanController extends Controller
         $request['kode'] = 'RJ' . $time->year . $time->month . str_pad($time->day, 2, '0', STR_PAD_LEFT) . '-' . str_pad($perawatans->count() + 1, 3, '0', STR_PAD_LEFT);
         $request['status'] = 0;
 
-        Perawatan::create($request->all());
+        Perawatan::updateOrCreate($request->except(['_token']));
 
         Alert::success('Success Info', 'Success Message');
         return redirect()->route('admin.rawat-jalan.index');
     }
     public function show($id)
     {
-        return view('rawatjalan::show');
+        $resep = Perawatan::find($id);
+        $resep->delete();
+
+        Alert::success('Success Info', 'Success Message');
+        return redirect()->back();
     }
     public function edit($id)
     {
@@ -76,8 +80,7 @@ class RawatJalanController extends Controller
             'Mata' => 'Mata',
         ];
         $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pengambilan obat', 'Selesai'];
-        $reseps = \Cart::session($id);
-        // dd($reseps->getContent());
+        $reseps = $perawatan->reseps;
 
         return view('rawatjalan::admin.edit', compact(['perawatan', 'reseps', 'status', 'obats', 'spesialis']))->with(['i' => 0]);
     }
