@@ -8,5 +8,7 @@
     "Perawatan": true,
     "RawatJalan": true,
     "Resep": true,
-    "Obat": true
+    "Obat": true,
+    "Transaksi": true,
+    "Apotek": true
 }

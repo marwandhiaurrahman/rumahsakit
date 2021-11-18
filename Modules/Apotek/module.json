@@ -1,0 +1,13 @@
+{
+    "name": "Apotek",
+    "alias": "apotek",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Apotek\\Providers\\ApotekServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
