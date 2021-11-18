@@ -64,7 +64,7 @@ class RawatJalanController extends Controller
         $time = Carbon::parse($request->tanggal);
         $perawatans = Perawatan::where('tanggal', $request->tanggal)->where('pelayanan', 'Rawat Jalan')->get();
         $request['kode'] = 'RJ' . $time->year . $time->month . str_pad($time->day, 2, '0', STR_PAD_LEFT) . '-' . str_pad($perawatans->count() + 1, 3, '0', STR_PAD_LEFT);
-        $request['status'] = 'Menunggu antrian';
+        $request['status'] = 0;
 
         Perawatan::create($request->all());
 

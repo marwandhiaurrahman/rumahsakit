@@ -295,8 +295,8 @@ return [
             'icon' => 'fas fa-fw fa-hospital',
         ],
         [
-            'text' => 'Farmasi',
-            'url'  => '#',
+            'text' => 'Obat',
+            'url'  => 'admin/obat',
             'icon' => 'fas fa-fw fa-tablets',
         ],
         [

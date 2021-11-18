@@ -5,6 +5,11 @@ namespace Modules\Obat\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Dokter\Entities\Dokter;
+use Modules\Obat\Entities\Obat;
+use Modules\Pasien\Entities\Pasien;
+use Modules\Perawatan\Entities\Perawatan;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ObatController extends Controller
 {
@@ -14,7 +19,8 @@ class ObatController extends Controller
      */
     public function index()
     {
-        return view('obat::index');
+        $obats = Obat::latest()->get();
+        return view('obat::admin.index', compact(['obats',]))->with(['i' => 0]);
     }
 
     /**
@@ -33,7 +39,19 @@ class ObatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kode'=>'required',
+            'name'=>'required',
+            'stok'=>'required',
+            'manfaat'=>'required',
+            'satuan'=>'required',
+            'harga'=>'required',
+        ]);
+
+        Obat::updateOrCreate($request->except(['_token']));
+
+        Alert::success('Success Info', 'Success Message');
+        return redirect()->route('admin.obat.index');
     }
 
     /**
