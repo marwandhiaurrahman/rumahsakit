@@ -16,7 +16,7 @@ return [
 
     'title' => 'SIM RS Waled',
     'title_prefix' => '',
-    'title_postfix' => '',
+    'title_postfix' => '- SIM RS Waled',
 
     /*
     |--------------------------------------------------------------------------
@@ -31,7 +31,7 @@ return [
     */
 
     'use_ico_only' => true,
-    'use_full_favicon' => true,
+    'use_full_favicon' => false,
 
     /*
     |--------------------------------------------------------------------------

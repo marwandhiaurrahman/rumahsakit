@@ -15,6 +15,7 @@ class CreatePerawatansTable extends Migration
     {
         Schema::create('perawatans', function (Blueprint $table) {
             $table->id();
+            $table->date('tanggal');
             $table->string('kode')->unique();
             $table->foreignId('pasien_id')->unsigned()->references('id')->on('pasiens');
             $table->foreignId('dokter_id')->unsigned()->references('id')->on('dokters');
@@ -23,7 +24,10 @@ class CreatePerawatansTable extends Migration
             $table->string('status');
             $table->dateTime('awal_perawatan')->nullable();
             $table->dateTime('akhir_perawatan')->nullable();
-            $table->bigInteger('resep_id')->nullable()  ->unsigned()->references('id')->on('reseps');
+            $table->bigInteger('resep_id')->nullable()->unsigned()->references('id')->on('reseps');
+            $table->text('keluhan')->nullable();
+            $table->text('analisis')->nullable();
+            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }

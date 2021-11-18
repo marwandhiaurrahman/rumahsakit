@@ -2,13 +2,15 @@
 
 namespace Modules\RawatJalan\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Laravolt\Indonesia\Models\Province;
 use Modules\Dokter\Entities\Dokter;
 use Modules\Pasien\Entities\Pasien;
 use Modules\Perawatan\Entities\Perawatan;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class RawatJalanController extends Controller
 {
@@ -21,7 +23,7 @@ class RawatJalanController extends Controller
         $perawatans = Perawatan::latest()->get();
         $dokters = Dokter::latest()->get();
         $pasiens = Pasien::latest()->get();
-        dd($pasiens);
+        // dd($dokters);
         $spesialis = [
             'Umum' => 'Umum',
             'Penyakit Dalam' => 'Penyakit Dalam',
@@ -30,7 +32,7 @@ class RawatJalanController extends Controller
             'Gigi & Mulut' => 'Gigi & Mulut',
             'Mata' => 'Mata',
         ];
-        return view('rawatjalan::admin.index', compact(['dokters', 'spesialis', 'agamas', 'kawin', 'provinces']))->with(['i' => 0]);
+        return view('rawatjalan::admin.index', compact(['dokters', 'pasiens', 'perawatans', 'spesialis',]))->with(['i' => 0]);
     }
 
     /**
@@ -49,7 +51,25 @@ class RawatJalanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'tanggal' => 'required',
+            'spesialis' => 'required',
+            'pasien_id' => 'required',
+            'dokter_id' => 'required',
+            'keluhan' => 'required',
+        ]);
+
+        $request['pelayanan'] = 'Rawat Jalan';
+        $time = Carbon::parse($request->tanggal);
+        $perawatans = Perawatan::where('tanggal', $request->tanggal)->where('pelayanan', 'Rawat Jalan')->get();
+        $request['kode'] = 'RJ' . $time->year . $time->month . str_pad($time->day, 2, '0', STR_PAD_LEFT) . '-' . str_pad($perawatans->count() + 1, 3, '0', STR_PAD_LEFT);
+        $request['status'] = 'Menunggu antrian';
+
+        Perawatan::create($request->all());
+
+        Alert::success('Success Info', 'Success Message');
+        return redirect()->route('admin.rawat-jalan.index');
     }
 
     /**
@@ -69,7 +89,17 @@ class RawatJalanController extends Controller
      */
     public function edit($id)
     {
-        return view('rawatjalan::edit');
+        $perawatan = Perawatan::where('kode', $id)->first();
+        // dd($perawatan);
+        $spesialis = [
+            'Umum' => 'Umum',
+            'Penyakit Dalam' => 'Penyakit Dalam',
+            'Anak' => 'Anak',
+            'THT-KL' => 'THT-KL',
+            'Gigi & Mulut' => 'Gigi & Mulut',
+            'Mata' => 'Mata',
+        ];
+        return view('rawatjalan::admin.edit', compact(['perawatan', 'spesialis']));
     }
 
     /**
@@ -80,7 +110,17 @@ class RawatJalanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'cek' => 'required',
+        ]);
+
+        $perawatan = Perawatan::where('kode', $id)->first();
+        if ($request->cek == 1) {
+            $perawatan->update($request->all());
+        }
+
+        Alert::success('Success Info', 'Success Message');
+        return redirect()->route('admin.rawat-jalan.index');
     }
 
     /**

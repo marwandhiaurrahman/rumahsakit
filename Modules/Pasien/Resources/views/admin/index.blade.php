@@ -120,9 +120,6 @@
                     </button>
                 </div>
                 {!! Form::open(['route' => 'admin.pasien.store', 'method' => 'POST', 'files' => true]) !!}
-                {{-- <div class="modal-body">
-
-                </div> --}}
                 <div class="modal-body">
                     <div class="row">
                         @if ($errors->any())
