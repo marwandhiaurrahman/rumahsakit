@@ -25,6 +25,9 @@ class RoleDatabaseSeeder extends Seeder
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
         }
+        $role = Role::create(['name' => 'Admin']);
+        $permissions = Permission::find(1);
+        $role->syncPermissions($permissions);
 
         $role = Role::create(['name' => 'Pasien']);
         $permissions = Permission::find(4);
@@ -34,9 +37,8 @@ class RoleDatabaseSeeder extends Seeder
         $permissions = Permission::find(3);
         $role->syncPermissions($permissions);
 
-
         $role = Role::create(['name' => 'Pengawas']);
-        $permissions = Permission::find([2]);
+        $permissions = Permission::find(2);
         $role->syncPermissions($permissions);
     }
 }

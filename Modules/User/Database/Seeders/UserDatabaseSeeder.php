@@ -5,6 +5,7 @@ namespace Modules\User\Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Pasien\Entities\Pasien;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -18,16 +19,30 @@ class UserDatabaseSeeder extends Seeder
     public function run()
     {
         $user = User::create([
-            'nik' => '3209020905980007',
-            'name' => 'Admin',
-            'email' => 'admin@gmail.com',
-            'username' => 'admin',
-            'phone' => '089529909036',
-            'password' => bcrypt('qweqwe')
+            "nik" => "3209020906980112",
+            "name" => "Admin",
+            "tempat_lahir" => "Cirebon",
+            "tanggal_lahir" => "1998-11-17",
+            "gender" => "Laki-laki",
+            "province_id" => "32",
+            "city_id" => "3209",
+            "district_id" => "320901",
+            "village_id" => "3209012012",
+            "phone" => "+6289529909035",
+            "email" => "admin@gmail.com",
+            "username" => "admin",
+            "agama" => "Islam",
+            "status_kawin" => "Belum Kawin",
+            "pekerjaan" => "Programmer",
+            "kewarganegaraan" => "Indonesia",
+            'password' => bcrypt('qweqwe'),
         ]);
-        $role = Role::create(['name' => 'Admin']);
-        $permissions = Permission::pluck('id', 'id')->all();
-        $role->syncPermissions($permissions);
-        $user->assignRole([$role->id]);
+        $user->assignRole('Pasien');
+        $user->assignRole('Admin');
+        Pasien::create([
+            'user_id' => $user->id,
+            'kode' => 20211101999,
+            'status' => 0
+        ]);
     }
 }
