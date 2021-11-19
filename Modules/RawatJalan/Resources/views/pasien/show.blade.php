@@ -7,9 +7,9 @@
 @stop
 
 @section('content')
-    {!! Form::model($perawatan, ['method' => 'PATCH', 'route' => ['admin.rawat-jalan.update', $perawatan->kode], 'files' => true]) !!}
+    {!! Form::model($perawatan, ['method' => 'PATCH', 'route' => ['pasien.rawat-jalan.update', $perawatan->kode], 'files' => true]) !!}
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="card card-secondary">
                 <div class="card-header">
                     <h3 class="card-title">Data Rawat Jalan</h3>
@@ -17,29 +17,37 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="iKode">Kode Registrasi</label>
-                                {!! Form::text('kode', $perawatan->kode, ['class' => 'form-control', 'id' => 'iKode', 'disabled', 'placeholder' => 'Masukan Kode']) !!}
-                            </div>
-                            <div class="form-group">
-                                <label for="iTanggal">Tanggal</label>
-                                {!! Form::date('tanggal', $perawatan->tanggal, ['class' => 'form-control', 'id' => 'iTanggal']) !!}
-                            </div>
+                            <dl>
+                                <dt>Kode</dt>
+                                <dd>
+                                    <h6>{{ $perawatan->kode }}</h6>
+                                </dd>
+                                <dt>Tanggal</dt>
+                                <dd>
+                                    <h6>
+                                        {{ Carbon\Carbon::parse($perawatan->tanggal)->format('D, d F Y') }}
+                                    </h6>
+                                </dd>
+                            </dl>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="iSpesialis">Poliklinik</label>
-                                {!! Form::select('spesialis', $spesialis, $perawatan->spesialis, ['class' => 'form-control', 'id' => 'iSpesialis']) !!}
-                            </div>
-                            <div class="form-group">
-                                <label for="iStatus">Status</label>
-                                {!! Form::select('status', $status, $perawatan->status, ['class' => 'form-control', 'id' => 'iStatus']) !!}
-                            </div>
+                            <dl>
+                                <dt>Poliklinik</dt>
+                                <dd>
+                                    <h6>{{ $perawatan->poliklinik->name }}</h6>
+                                </dd>
+                                <dt>Status</dt>
+                                <dd>
+                                    <h6>
+                                        {{  $perawatan->status }}
+                                    </h6>
+                                </dd>
+                            </dl>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="iKeluhan">Keluhan</label>
-                                {!! Form::textarea('keluhan', $perawatan->keluhan, ['class' => 'form-control', 'id' => 'iKeluhan', 'rows' => '3']) !!}
+                                {!! Form::textarea('keluhan', $perawatan->keluhan, ['class' => 'form-control', 'id' => 'iKeluhan', 'rows' => '5']) !!}
                             </div>
                         </div>
                     </div>
@@ -54,40 +62,38 @@
                 <div class="card-body">
                     <dl class="row">
                         <dt class="col-sm-2">Kode</dt>
-                        <dd class="col-sm-10">123123123</dd>
+                        <dd class="col-sm-10">{{ $perawatan->pasien->kode }}</dd>
                         <dt class="col-sm-2">NIK</dt>
-                        <dd class="col-sm-10">1234123412341234</dd>
+                        <dd class="col-sm-10">{{ $perawatan->pasien->user->nik }}</dd>
                         <dt class="col-sm-2">Nama</dt>
-                        <dd class="col-sm-10">Marwan Dhiaur Rahman</dd>
+                        <dd class="col-sm-10">{{ $perawatan->pasien->user->name }}</dd>
                         <dt class="col-sm-2">TTL</dt>
-                        <dd class="col-sm-10">Cirebon, 9 Mei 1998</dd>
+                        <dd class="col-sm-10">{{ $perawatan->pasien->user->tempat_lahir }},
+                            {{ Carbon\Carbon::parse($perawatan->pasien->user->tanggal_lahir)->format('y F Y') }}</dd>
                         <dt class="col-sm-2">Umur</dt>
-                        <dd class="col-sm-10">23 Tahun</dd>
+                        <dd class="col-sm-10">
+                            {{ Carbon\Carbon::parse($perawatan->pasien->user->tanggal_lahir)->diffInYears(Carbon\Carbon::now()) }}
+                            tahun</dd>
+                        <dt class="col-sm-2">Status</dt>
+                        <dd class="col-sm-10">{{ $perawatan->pasien->user->status_kawin }}</dd>
                     </dl>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
             <div class="card card-secondary">
                 <div class="card-header">
                     <h3 class="card-title">Data Dokter</h3>
                 </div>
                 <div class="card-body">
                     <dl class="row">
-                        <dt class="col-sm-2">Kode</dt>
-                        <dd class="col-sm-10">123123123</dd>
-                        <dt class="col-sm-2">NIK</dt>
-                        <dd class="col-sm-10">1234123412341234</dd>
                         <dt class="col-sm-2">Nama</dt>
-                        <dd class="col-sm-10">Marwan Dhiaur Rahman</dd>
-                        <dt class="col-sm-2">TTL</dt>
-                        <dd class="col-sm-10">Cirebon, 9 Mei 1998</dd>
-                        <dt class="col-sm-2">Umur</dt>
-                        <dd class="col-sm-10">23 Tahun</dd>
+                        <dd class="col-sm-10">{{ $perawatan->dokter->user->name }}</dd>
+                        <dt class="col-sm-2">Spesialis</dt>
+                        <dd class="col-sm-10">Poli {{ $perawatan->poliklinik->name }}</dd>
                     </dl>
                 </div>
             </div>
         </div>
+
         <div class="col-md-12">
             <div class="card card-primary">
                 <div class="card-header">
@@ -100,12 +106,14 @@
                                 {{-- <div class="col-md-12"> --}}
                                 <div class="form-group">
                                     <label for="iAnalisis">Analisis Dokter</label>
-                                    {!! Form::textarea('analisis', null, ['class' => 'form-control' . ($errors->has('cek') ? ' is-invalid' : ''), 'id' => 'iAnalisis', 'rows' => '3', 'required', 'placeholder' => 'Masukan Hasil Analisis Dokter']) !!}
+                                    {!! Form::textarea('analisis', null, ['class' => 'form-control' . ($errors->has('cek') ? ' is-invalid' : ''), 'id' => 'iAnalisis', 'rows' => '3', 'disabled', 'placeholder' => 'Hasil Analisis Dokter']) !!}
                                 </div>
                                 {{-- </div> --}}
-                                <a href="#" class="btn btn-primary btn-xs mb-3" data-toggle="modal"
-                                    data-target="#createObat">Tambah Obat</a>
-                                <a href="" class="btn btn-success btn-xs mb-3" >Konfirmasi Resep Obat</a>
+                                @can(['admin-role'])
+                                    <a href="#" class="btn btn-primary btn-xs mb-3" data-toggle="modal"
+                                        data-target="#createObat">Tambah Obat</a>
+                                    <a href="" class="btn btn-success btn-xs mb-3">Konfirmasi Resep Obat</a>
+                                @endcan
                                 <table id="example1" class="table table-bordered table-striped dataTable dtr-inline"
                                     role="grid" aria-describedby="example1_info">
                                     <thead>
@@ -170,133 +178,16 @@
                 <div class="card-body">
                     <div class="custom-control custom-checkbox">
                         {!! Form::checkbox('cek', 1, null, ['class' => 'custom-control-input' . ($errors->has('cek') ? ' is-invalid' : ''), 'required', 'id' => 'iCek']) !!}
-                        <label for="iCek" class="custom-control-label">Perawatan pasien ini telah dicek oleh Dokter</label>
+                        <label for="iCek" class="custom-control-label">Dengan ini saya menyatakan data saya sudah
+                            sesuai</label>
                     </div>
                     <button type="submit" class="btn btn-success mt-2">Update</button>
-                    <a href="{{ route('admin.rawat-jalan.index') }}" class="btn btn-default mt-2">Kembali</a>
+                    <a href="{{ route('pasien.rawat-jalan.index') }}" class="btn btn-default mt-2">Kembali</a>
                 </div>
             </div>
         </div>
     </div>
     {!! Form::close() !!}
-    <div class="modal fade" id="createObat" tabindex="-1" role="dialog" aria-labelledby="createObat" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-success">
-                    <h5 class="modal-title" id="createModalLabel">Tambah Obat untuk Perawatan</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {!! Form::open(['route' => 'admin.resep-obat.store', 'method' => 'POST', 'files' => true]) !!}
-                <div class="modal-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> Ada kesalahan input.<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    {!! Form::hidden('kode', $perawatan->kode) !!}
-                    <div class="form-group">
-                        <label for="iObat" class="form-label">Obat</label>
-                        <select name="obat_id" id="obat_id" class="form-control">
-                            <option value="">Pilih Obat</option>
-                            @foreach ($obats as $item)
-                                <option value="{{ $item->id }}"> {{ $item->name }} ( tersedia {{ $item->stok }}
-                                    {{ $item->satuan }})</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="iSatuan" class="form-label">Jumlah Pembelian</label>
-                        {!! Form::number('stok', null, ['class' => 'form-control' . ($errors->has('stok') ? ' is-invalid' : ''), 'id' => 'iSatuan', 'required', 'placeholder' => 'Jumlah Pembelian']) !!}
-                    </div>
-                    <div class="form-group">
-                        <label for="iDosis" class="form-label">Dosis</label>
-                        {!! Form::text('dosis', null, ['class' => 'form-control' . ($errors->has('dosis') ? ' is-invalid' : ''), 'id' => 'iDosis', 'required', 'placeholder' => 'Keterangan Dosis Penggunaan']) !!}
-                    </div>
-                    <div class="form-group">
-                        <label for="iKeterangan" class="form-label">Keterangan</label>
-                        {!! Form::text('keterangan', null, ['class' => 'form-control' . ($errors->has('keterangan') ? ' is-invalid' : ''), 'id' => 'iKeterangan', 'required', 'placeholder' => 'Keterangan Dosis Penggunaan']) !!}
-                    </div>
-                    <div class="card card-warning">
-                        <div class="card-header">
-                            <h3 class="card-title">Data Detail Obat</h3>
-                        </div>
-                        <div class="card-body">
-                            <dl class="row">
-                                <dt class="col-sm-2">Kode</dt>
-                                <dd class="col-sm-10">123123123</dd>
-                                <dt class="col-sm-2">NIK</dt>
-                                <dd class="col-sm-10">1234123412341234</dd>
-                                <dt class="col-sm-2">Nama</dt>
-                                <dd class="col-sm-10">Marwan Dhiaur Rahman</dd>
-                                <dt class="col-sm-2">TTL</dt>
-                                <dd class="col-sm-10">Cirebon, 9 Mei 1998</dd>
-                                <dt class="col-sm-2">Umur</dt>
-                                <dd class="col-sm-10">23 Tahun</dd>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Submit</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-                {!! Form::close() !!}
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="createJasa" tabindex="-1" role="dialog" aria-labelledby="createJasa"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-success">
-                    <h5 class="modal-title" id="createModalLabel">Tambah Jasa untuk Perawatan</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {!! Form::open(['route' => 'admin.resep-obat.store', 'method' => 'POST', 'files' => true]) !!}
-                <div class="modal-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> Ada kesalahan input.<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    {!! Form::hidden('kode', $perawatan->kode) !!}
-                    <div class="form-group">
-                        <label for="iNama" class="form-label">Jasa Dokter </label>
-                        {!! Form::hidden('name', 'Jasa Dokter',) !!}
-                        {!! Form::text('dosis', null, ['class' => 'form-control' . ($errors->has('dosis') ? ' is-invalid' : ''), 'id' => 'iNama', 'required', 'placeholder' => 'Keterangan Jasa Dokter']) !!}
-                    </div>
-                    <div class="form-group">
-                        <label for="iHarga" class="form-label">Harga </label>
-                        {!! Form::hidden('stok', 1,) !!}
-                        {!! Form::number('harga', null, ['class' => 'form-control' . ($errors->has('harga') ? ' is-invalid' : ''), 'id' => 'iHarga', 'required', 'placeholder' => 'Harga Jasa Dokter']) !!}
-                    </div>
-                    <div class="form-group">
-                        <label for="iKeterangan" class="form-label">Keterangan</label>
-                        {!! Form::textarea('keterangan', null, ['class' => 'form-control' . ($errors->has('keterangan') ? ' is-invalid' : ''), 'id' => 'iKeterangan', 'rows'=>3, 'placeholder' => 'Keterangan Tambahan']) !!}
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Submit</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-                {!! Form::close() !!}
-            </div>
-        </div>
-    </div>
 @stop
 @section('plugins.Datatables', true)
 
@@ -312,7 +203,7 @@
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
-                "buttons": ["excel", "pdf", "print", "colvis"],
+                // "buttons": ["excel", "pdf", "print", "colvis"],
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
     </script>

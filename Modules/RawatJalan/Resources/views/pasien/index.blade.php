@@ -77,20 +77,9 @@
                                                 <td>
                                                     <a class="btn btn-xs btn-primary    "
                                                         href="{{ route('pasien.rawat-jalan.show', $item->kode) }}"
-                                                        data-toggle="tooltip" title="Lihat {{ $item->kode }}"><i
-                                                            class=" fas fa-file"></i></a>
+                                                        data-toggle="tooltip" title="Lihat Data {{ $item->kode }}"><i
+                                                            class=" fas fa-file-alt"></i></a>
                                                 </td>
-
-                                                {{-- <td>
-
-                                                    <a href="{{ route('admin.rawat-jalan.destroy', $item->id) }}"
-                                                        class="btn btn-xs btn-danger"
-                                                        onclick="return confirm('Are you sure you want to delete this item ?')"
-                                                        data-toggle="tooltip" title="Hapus {{ $item->name }}"
-                                                        data-method="delete">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </a>
-                                                </td> --}}
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -136,7 +125,7 @@
                                         <label for="iSpesialis" class="form-label">Poliklinik</label>
                                         <select name="poliklinik_id" class="form-control" id='iSpesialis'>
                                             <option value="">Pilih Polikinik</option>
-                                            @foreach ($poliklinik as $item)
+                                            @foreach ($polikliniks as $item)
                                                 <option value="{{ $item->id }}">{{ $item->kode }} -
                                                     {{ $item->name }}
                                                 </option>

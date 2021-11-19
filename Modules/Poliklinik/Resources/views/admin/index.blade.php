@@ -56,10 +56,11 @@
                                     <thead>
                                         <tr>
                                             <th>No.</th>
-                                            <th>Kode</th>
                                             <th>Name</th>
                                             <th>Dokter</th>
                                             <th>Status</th>
+                                            <th>Antrian</th>
+                                            <th>Total Pelayanan</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -67,8 +68,7 @@
                                         @foreach ($polikliniks as $item)
                                             <tr>
                                                 <td>{{ ++$i }}</td>
-                                                <td>{{ $item->kode }}</td>
-                                                <td>{{ $item->name }}</td>
+                                                <td>{{ $item->kode }} - {{ $item->name }}</td>
                                                 <td>{{ $item->dokter->user->name }}</td>
                                                 <td>
                                                     @if ($item->status)
@@ -77,6 +77,8 @@
                                                         <label class="badge badge-success">Non-Aktif</label>
                                                     @endif
                                                 </td>
+                                                <td>{{ $item->perawatans }}</td>
+                                                <td>{{ $item->status }}</td>
                                                 <td>{{ $item->status }}</td>
                                             </tr>
                                         @endforeach

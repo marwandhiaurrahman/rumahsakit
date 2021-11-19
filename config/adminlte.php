@@ -274,6 +274,12 @@ return [
         //     'icon' => 'fas fa-fw fa-clinic-medical',
         // ],
         [
+            'text' => 'Poliklinik',
+            'can' => 'admin-role',
+            'url'  => 'admin/poliklinik',
+            'icon' => 'fas fa-fw fa-clinic-medical',
+        ],
+        [
             'text' => 'Apotek',
             'url'  => '#',
             'icon' => 'fas fa-fw fa-first-aid',
@@ -322,12 +328,7 @@ return [
         //     'url'  => '#',
         //     'icon' => 'fas fa-fw fa-hospital',
         // ],
-        [
-            'text' => 'Poliklinik',
-            'can' => 'admin-role',
-            'url'  => 'admin/poliklinik',
-            'icon' => 'fas fa-fw fa-clinic-medical',
-        ],
+
         [
             'text' => 'Obat',
             'can' => 'admin-role',

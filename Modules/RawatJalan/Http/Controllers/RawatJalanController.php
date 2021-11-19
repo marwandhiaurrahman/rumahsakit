@@ -10,6 +10,7 @@ use Modules\Dokter\Entities\Dokter;
 use Modules\Obat\Entities\Obat;
 use Modules\Pasien\Entities\Pasien;
 use Modules\Perawatan\Entities\Perawatan;
+use Modules\Poliklinik\Entities\Poliklinik;
 use RealRashid\SweetAlert\Facades\Alert;
 
 
@@ -19,19 +20,10 @@ class RawatJalanController extends Controller
     public function index()
     {
         $perawatans = Perawatan::latest()->get();
-        $dokters = Dokter::latest()->get();
+        $polikliniks = Poliklinik::get();
         $pasiens = Pasien::latest()->get();
-        // dd($dokters);
-        $spesialis = [
-            'Umum' => 'Umum',
-            'Penyakit Dalam' => 'Penyakit Dalam',
-            'Anak' => 'Anak',
-            'THT-KL' => 'THT-KL',
-            'Gigi & Mulut' => 'Gigi & Mulut',
-            'Mata' => 'Mata',
-        ];
-        $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pengambilan obat', 'Selesai'];
-        return view('rawatjalan::admin.index', compact(['dokters',  'pasiens', 'perawatans', 'spesialis',]))->with(['i' => 0]);
+        $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pembayaran obat', 'Penyiapan obat', 'Pemngambilan', 'Selesai'];
+        return view('rawatjalan::admin.index', compact(['pasiens', 'perawatans', 'polikliniks',]))->with(['i' => 0]);
     }
     public function create()
     {
@@ -40,23 +32,24 @@ class RawatJalanController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
-            'tanggal' => 'required',
-            'spesialis' => 'required',
-            'pasien_id' => 'required',
-            'dokter_id' => 'required',
-            'keluhan' => 'required',
-        ]);
-
-        $request['pelayanan'] = 'Rawat Jalan';
         $time = Carbon::parse($request->tanggal);
-        $perawatans = Perawatan::where('tanggal', $request->tanggal)->where('pelayanan', 'Rawat Jalan')->get();
-
-        $request['kode'] = 'RJ' . $time->year . $time->month . str_pad($time->day, 2, '0', STR_PAD_LEFT) . '-' . str_pad($perawatans->count() + 1, 3, '0', STR_PAD_LEFT);
+        $poliklinik = Poliklinik::find($request->poliklinik_id);
+        $perawatans = Perawatan::where('tanggal', $request->tanggal)->where('pelayanan', 'Rawat Jalan')->where('poliklinik_id', $request->poliklinik_id)->get();
+        $request['kode'] = str_pad($perawatans->count() + 1, 3, '0', STR_PAD_LEFT) . $poliklinik->kode . '-' . $time->year . $time->month . str_pad($time->day, 2, '0', STR_PAD_LEFT) . '-' . 'RJ';
+        $request['pelayanan'] = 'Rawat Jalan';
         $request['status'] = 0;
 
-        Perawatan::updateOrCreate($request->except(['_token']));
+        $request->validate([
+            'tanggal' => 'required',
+            'kode' => 'required',
+            'pasien_id' => 'required',
+            'poliklinik_id' => 'required',
+            'keluhan' => 'required',
+            'pelayanan' => 'required',
+            'status' => 'required',
+        ]);
 
+        Perawatan::updateOrCreate($request->except(['_token']));
         Alert::success('Success Info', 'Success Message');
         return redirect()->route('admin.rawat-jalan.index');
     }
@@ -80,8 +73,8 @@ class RawatJalanController extends Controller
             'Gigi & Mulut' => 'Gigi & Mulut',
             'Mata' => 'Mata',
         ];
-        $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pengambilan obat', 'Selesai'];
         $reseps = $perawatan->reseps;
+        $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pembayaran obat', 'Penyiapan obat', 'Pemngambilan', 'Selesai'];
 
         return view('rawatjalan::admin.edit', compact(['perawatan', 'reseps', 'status', 'obats', 'spesialis']))->with(['i' => 0]);
     }

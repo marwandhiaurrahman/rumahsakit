@@ -100,7 +100,7 @@
     </div>
     <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-success">
                     <h5 class="modal-title" id="createModalLabel">Daftar Rawat Jalan</h5>
@@ -131,11 +131,11 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="iSpesialis" class="form-label">Poliklinik</label>
-                                        <select name="spesialis" id="spesialis" class="form-control" id='iSpesialis'>
+                                        <label for="iPoliklinik" class="form-label">Poliklinik</label>
+                                        <select name="poliklinik_id" class="form-control" id='iPoliklinik'>
                                             <option value="">Pilih Polikinik</option>
-                                            @foreach ($spesialis as $item)
-                                                <option value="{{ $item }}">{{ $item }}
+                                            @foreach ($polikliniks as $item)
+                                                <option value="{{ $item->id }}">{{ $item->kode }} - {{ $item->name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -143,74 +143,21 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="iSpesialis">Keluhan</label>
-                                        {!! Form::textarea('keluhan', null, ['class' => 'form-control', 'id' => 'iSpesialis', 'rows' => '3']) !!}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card card-warning">
-                                <div class="card-header">
-                                    <h3 class="card-title">Data Pasien</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-group">
                                         <label for="pasien_id" class="form-label">Pasien</label>
                                         <select name="pasien_id" id="pasien_id" class="form-control">
                                             <option value="">Pilih Pasien</option>
                                             @foreach ($pasiens as $item)
-                                                <option value="{{ $item->id }}">{{ $item->kode }}
-                                                    {{ $item->user->name }}
+                                                <option value="{{ $item->id }}">{{ $item->kode }} - {{ Carbon\Carbon::parse($item->user->tanggal_lahir)->diffInYears(Carbon\Carbon::now()) }}
+                                                    th -
+                                                    {{ $item->user->name }} - {{ $item->user->desa->name }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <dl class="row">
-                                        <dt class="col-sm-2">Kode</dt>
-                                        <dd class="col-sm-10">123123123</dd>
-                                        <dt class="col-sm-2">NIK</dt>
-                                        <dd class="col-sm-10">1234123412341234</dd>
-                                        <dt class="col-sm-2">Nama</dt>
-                                        <dd class="col-sm-10">Marwan Dhiaur Rahman</dd>
-                                        <dt class="col-sm-2">TTL</dt>
-                                        <dd class="col-sm-10">Cirebon, 9 Mei 1998</dd>
-                                        <dt class="col-sm-2">Umur</dt>
-                                        <dd class="col-sm-10">23 Tahun</dd>
-                                    </dl>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card card-warning">
-                                <div class="card-header">
-                                    <h3 class="card-title">Data Dokter</h3>
-                                </div>
-                                <div class="card-body">
                                     <div class="form-group">
-                                        <label for="dokter_id" class="form-label">Dokter</label>
-                                        <select name="dokter_id" id="dokter_id" class="form-control">
-                                            <option value="">Pilih Dokter</option>
-                                            @foreach ($dokters as $item)
-                                                <option value="{{ $item->id }}">{{ $item->user->name }} (
-                                                    {{ $item->spesialis }} )</option>
-                                            @endforeach
-                                        </select>
+                                        <label for="iSpesialis">Keluhan</label>
+                                        {!! Form::textarea('keluhan', null, ['class' => 'form-control', 'id' => 'iSpesialis', 'rows' => '3']) !!}
                                     </div>
-                                    <dl class="row">
-                                        <dt class="col-sm-2">Kode</dt>
-                                        <dd class="col-sm-10">123123123</dd>
-                                        <dt class="col-sm-2">NIK</dt>
-                                        <dd class="col-sm-10">1234123412341234</dd>
-                                        <dt class="col-sm-2">Nama</dt>
-                                        <dd class="col-sm-10">Marwan Dhiaur Rahman</dd>
-                                        <dt class="col-sm-2">TTL</dt>
-                                        <dd class="col-sm-10">Cirebon, 9 Mei 1998</dd>
-                                        <dt class="col-sm-2">Umur</dt>
-                                        <dd class="col-sm-10">23 Tahun</dd>
-                                    </dl>
                                 </div>
                             </div>
                         </div>
