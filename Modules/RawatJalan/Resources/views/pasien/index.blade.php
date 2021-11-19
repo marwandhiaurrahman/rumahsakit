@@ -19,7 +19,7 @@
                         <div class="icon">
                             <i class="fas fa-user-plus"></i>
                         </div>
-                        @can('admin-role')
+                        @can('pasien-role')
                             <a href="#" class="small-box-footer" data-toggle="modal" data-target="#createModal">
                                 Daftar Rawat Jalan <i class="fas fa-plus-circle"></i>
                             </a>
@@ -56,7 +56,7 @@
                                                 <td>{{ ++$i }}</td>
                                                 <td>{{ $item->kode }}</td>
                                                 <td>{{ Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
-                                                <td>{{ $item->spesialis }}</td>
+                                                <td>{{ $item->poliklinik->name }}</td>
                                                 <td>{{ $item->pasien->user->name }}</td>
                                                 <td>{{ $item->dokter->user->name }}</td>
                                                 <td>{{ $item->keluhan }}</td>
@@ -75,10 +75,14 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-xs btn-warning"
-                                                        href="{{ route('admin.rawat-jalan.edit', $item->kode) }}"
-                                                        data-toggle="tooltip" title="Edit {{ $item->kode }}"><i
-                                                            class=" fas fa-edit"></i></a>
+                                                    <a class="btn btn-xs btn-primary    "
+                                                        href="{{ route('pasien.rawat-jalan.show', $item->kode) }}"
+                                                        data-toggle="tooltip" title="Lihat {{ $item->kode }}"><i
+                                                            class=" fas fa-file"></i></a>
+                                                </td>
+
+                                                {{-- <td>
+
                                                     <a href="{{ route('admin.rawat-jalan.destroy', $item->id) }}"
                                                         class="btn btn-xs btn-danger"
                                                         onclick="return confirm('Are you sure you want to delete this item ?')"
@@ -86,7 +90,7 @@
                                                         data-method="delete">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -108,7 +112,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                {!! Form::open(['route' => 'admin.rawat-jalan.store', 'method' => 'POST', 'files' => true]) !!}
+                {!! Form::open(['route' => 'pasien.rawat-jalan.store', 'method' => 'POST', 'files' => true]) !!}
                 <div class="modal-body">
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -120,96 +124,53 @@
                             </ul>
                         </div>
                     @endif
-                    <div class="card card-warning">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card card-warning">
+                                <div class="card-body">
                                     <div class="form-group">
                                         <label for="iTanggal">Tanggal Rawat Jalan</label>
                                         {!! Form::date('tanggal', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'iTanggal']) !!}
                                     </div>
-                                </div>
-                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="iSpesialis" class="form-label">Poliklinik</label>
-                                        <select name="spesialis" id="spesialis" class="form-control" id='iSpesialis'>
+                                        <select name="poliklinik_id" class="form-control" id='iSpesialis'>
                                             <option value="">Pilih Polikinik</option>
-                                            @foreach ($spesialis as $item)
-                                                <option value="{{ $item }}">{{ $item }}
+                                            @foreach ($poliklinik as $item)
+                                                <option value="{{ $item->id }}">{{ $item->kode }} -
+                                                    {{ $item->name }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="iSpesialis">Keluhan</label>
-                                        {!! Form::textarea('keluhan', null, ['class' => 'form-control', 'id' => 'iSpesialis', 'rows' => '3']) !!}
+                                        <label for="iKeluhan">Keluhan</label>
+                                        {!! Form::textarea('keluhan', null, ['class' => 'form-control', 'id' => 'iKeluhan', 'rows' => '3']) !!}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-6">
                             <div class="card card-warning">
                                 <div class="card-header">
                                     <h3 class="card-title">Data Pasien</h3>
                                 </div>
                                 <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="pasien_id" class="form-label">Pasien</label>
-                                        <select name="pasien_id" id="pasien_id" class="form-control">
-                                            <option value="">Pilih Pasien</option>
-                                            @foreach ($pasiens as $item)
-                                                <option value="{{ $item->id }}">{{ $item->kode }}
-                                                    {{ $item->user->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
                                     <dl class="row">
                                         <dt class="col-sm-2">Kode</dt>
-                                        <dd class="col-sm-10">123123123</dd>
+                                        <dd class="col-sm-10">{{ $pasien->kode }}</dd>
                                         <dt class="col-sm-2">NIK</dt>
-                                        <dd class="col-sm-10">1234123412341234</dd>
+                                        <dd class="col-sm-10">{{ $pasien->user->nik }}</dd>
                                         <dt class="col-sm-2">Nama</dt>
-                                        <dd class="col-sm-10">Marwan Dhiaur Rahman</dd>
+                                        <dd class="col-sm-10">{{ $pasien->user->name }}</dd>
                                         <dt class="col-sm-2">TTL</dt>
-                                        <dd class="col-sm-10">Cirebon, 9 Mei 1998</dd>
+                                        <dd class="col-sm-10">{{ $pasien->user->tempat_lahir }},
+                                            {{ Carbon\Carbon::parse($pasien->user->tanggal_lahir)->format('d F Y') }}
+                                        </dd>
                                         <dt class="col-sm-2">Umur</dt>
-                                        <dd class="col-sm-10">23 Tahun</dd>
-                                    </dl>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card card-warning">
-                                <div class="card-header">
-                                    <h3 class="card-title">Data Dokter</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="dokter_id" class="form-label">Dokter</label>
-                                        <select name="dokter_id" id="dokter_id" class="form-control">
-                                            <option value="">Pilih Dokter</option>
-                                            @foreach ($dokters as $item)
-                                                <option value="{{ $item->id }}">{{ $item->user->name }} (
-                                                    {{ $item->spesialis }} )</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <dl class="row">
-                                        <dt class="col-sm-2">Kode</dt>
-                                        <dd class="col-sm-10">123123123</dd>
-                                        <dt class="col-sm-2">NIK</dt>
-                                        <dd class="col-sm-10">1234123412341234</dd>
-                                        <dt class="col-sm-2">Nama</dt>
-                                        <dd class="col-sm-10">Marwan Dhiaur Rahman</dd>
-                                        <dt class="col-sm-2">TTL</dt>
-                                        <dd class="col-sm-10">Cirebon, 9 Mei 1998</dd>
-                                        <dt class="col-sm-2">Umur</dt>
-                                        <dd class="col-sm-10">23 Tahun</dd>
+                                        <dd class="col-sm-10">
+                                            {{ Carbon\Carbon::parse($pasien->user->tanggal_lahir)->diffInYears(Carbon\Carbon::now()) }}
+                                            Tahun</dd>
                                     </dl>
                                 </div>
                             </div>

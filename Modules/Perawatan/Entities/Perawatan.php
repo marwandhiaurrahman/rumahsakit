@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Dokter\Entities\Dokter;
 use Modules\Obat\Entities\Resep;
 use Modules\Pasien\Entities\Pasien;
+use Modules\Poliklinik\Entities\Poliklinik;
 
 class Perawatan extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'tanggal','kode','pasien_id','dokter_id','pelayanan','spesialis','status','awal_perawatan','akhir_perawatan','resep_id','keluhan','analisis','keterangan'
+        'tanggal','kode','pasien_id','poliklinik_id','pelayanan','status','awal_perawatan','akhir_perawatan','keluhan','analisis','keterangan'
     ];
 
     protected static function newFactory()
@@ -24,9 +25,13 @@ class Perawatan extends Model
     {
         return $this->belongsTo(Pasien::class);
     }
+    public function poliklinik()
+    {
+        return $this->belongsTo(Poliklinik::class);
+    }
     public function dokter()
     {
-        return $this->belongsTo(Dokter::class);
+        return $this->poliklinik->dokter();
     }
     public function reseps()
     {
