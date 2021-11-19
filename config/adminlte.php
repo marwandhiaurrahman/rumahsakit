@@ -309,8 +309,14 @@ return [
         ],
         [
             'text' => 'Apotek',
-            'url'  => '#',
+            'url'  => 'admin/apotek',
             'icon' => 'fas fa-fw fa-first-aid',
+            'can' => 'admin-role',
+        ],
+        [
+            'text' => 'Transaksi',
+            'url'  => 'admin/transaksi',
+            'icon' => 'fas fa-fw fa-money-check-alt',
             'can' => 'admin-role',
         ],
         [

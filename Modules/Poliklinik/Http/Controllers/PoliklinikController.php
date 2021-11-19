@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Laravolt\Indonesia\Models\Province;
 use Modules\Dokter\Entities\Dokter;
+use Modules\Perawatan\Entities\Perawatan;
 use Modules\Poliklinik\Entities\Poliklinik;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -60,7 +61,13 @@ class PoliklinikController extends Controller
      */
     public function show($id)
     {
-        return view('poliklinik::show');
+        $poliklinik = Poliklinik::where('kode', $id)->first();
+
+        $perawatans = Perawatan::where('poliklinik_id', $poliklinik->id)->latest()->get();
+        // dd($perawatans);
+        // $pasien = Pasien::where('user_id', Auth::user()->id)->first();
+        $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pengambilan obat', 'Selesai'];
+        return view('poliklinik::admin.show', compact(['poliklinik', 'perawatans',]))->with(['i' => 0]);
     }
 
     /**

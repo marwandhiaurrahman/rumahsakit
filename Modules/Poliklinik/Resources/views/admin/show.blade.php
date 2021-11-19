@@ -11,23 +11,7 @@
         <div class="col-12">
             <div class="row">
                 <div class="col-lg-3 col-6">
-                    <div class="small-box bg-danger">
-                        <div class="inner">
-                            <h3>{{ $perawatans->where('status', 0)->count() }}</h3>
-                            <p>Antrian Pasien</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-user-injured"></i>
-                        </div>
-                        {{-- @can('admin-role') --}}
-                            <a href="#" class="small-box-footer">
-                                Antrian Pasien Rawat Jalan <i class="fas fa-info-circle"></i>
-                            </a>
-                        {{-- @endcan --}}
-                    </div>
-                </div>
-                <div class="col-lg-3 col-6">
-                    <div class="small-box bg-success">
+                    <div class="small-box bg-warning">
                         <div class="inner">
                             <h3>{{ $perawatans->count() }}</h3>
                             <p>Pasien Rawat Jalan</p>
@@ -35,9 +19,9 @@
                         <div class="icon">
                             <i class="fas fa-user-plus"></i>
                         </div>
-                        @can('admin-role')
+                        @can('pasien-role')
                             <a href="#" class="small-box-footer" data-toggle="modal" data-target="#createModal">
-                                Daftarkan Pasien Rawat Jalan <i class="fas fa-plus-circle"></i>
+                                Daftar Rawat Jalan <i class="fas fa-plus-circle"></i>
                             </a>
                         @endcan
                     </div>
@@ -84,30 +68,17 @@
                                                         <label class="badge badge-warning">Pengecekan oleh dokter</label>
                                                     @endif
                                                     @if ($item->status == 2)
-                                                        <label class="badge badge-warning">Pembayaran obat</label>
+                                                        <label class="badge badge-warning">Pengambilan obat</label>
                                                     @endif
                                                     @if ($item->status == 3)
-                                                        <label class="badge badge-warning">Penyiapan obat</label>
-                                                    @endif
-                                                    @if ($item->status == 4)
-                                                        <label class="badge badge-success">Pengambilan obat</label>
-                                                    @endif
-                                                    @if ($item->status == 5)
                                                         <label class="badge badge-success">Selesai</label>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-xs btn-warning"
-                                                        href="{{ route('admin.rawat-jalan.edit', $item->kode) }}"
-                                                        data-toggle="tooltip" title="Edit {{ $item->kode }}"><i
-                                                            class=" fas fa-edit"></i></a>
-                                                    <a href="{{ route('admin.rawat-jalan.destroy', $item->id) }}"
-                                                        class="btn btn-xs btn-danger"
-                                                        onclick="return confirm('Are you sure you want to delete this item ?')"
-                                                        data-toggle="tooltip" title="Hapus {{ $item->name }}"
-                                                        data-method="delete">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </a>
+                                                    <a class="btn btn-xs btn-primary    "
+                                                        href="{{ route('pasien.rawat-jalan.show', $item->kode) }}"
+                                                        data-toggle="tooltip" title="Lihat Data {{ $item->kode }}"><i
+                                                            class=" fas fa-file-alt"></i></a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -122,7 +93,7 @@
     </div>
     <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-success">
                     <h5 class="modal-title" id="createModalLabel">Daftar Rawat Jalan</h5>
@@ -130,7 +101,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                {!! Form::open(['route' => 'admin.rawat-jalan.store', 'method' => 'POST', 'files' => true]) !!}
+                {!! Form::open(['route' => 'pasien.rawat-jalan.store', 'method' => 'POST', 'files' => true]) !!}
                 <div class="modal-body">
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -142,46 +113,54 @@
                             </ul>
                         </div>
                     @endif
-                    <div class="card card-warning">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card card-warning">
+                                <div class="card-body">
                                     <div class="form-group">
                                         <label for="iTanggal">Tanggal Rawat Jalan</label>
                                         {!! Form::date('tanggal', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'iTanggal']) !!}
                                     </div>
-                                </div>
-                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="iPoliklinik" class="form-label">Poliklinik</label>
-                                        <select name="poliklinik_id" class="form-control" id='iPoliklinik'>
+                                        <label for="iSpesialis" class="form-label">Poliklinik</label>
+                                        <select name="poliklinik_id" class="form-control" id='iSpesialis'>
                                             <option value="">Pilih Polikinik</option>
-                                            @foreach ($polikliniks as $item)
-                                                <option value="{{ $item->id }}">{{ $item->kode }} -
+                                            @foreach ($poliklinik as $item)
+                                                {{-- <option value="{{ $item->id }}">{{ $item->kode }} -
                                                     {{ $item->name }}
-                                                </option>
+                                                </option> --}}
                                             @endforeach
                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="iKeluhan">Keluhan</label>
+                                        {!! Form::textarea('keluhan', null, ['class' => 'form-control', 'id' => 'iKeluhan', 'rows' => '3']) !!}
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="pasien_id" class="form-label">Pasien</label>
-                                        <select name="pasien_id" id="pasien_id" class="form-control">
-                                            <option value="">Pilih Pasien</option>
-                                            @foreach ($pasiens as $item)
-                                                <option value="{{ $item->id }}">{{ $item->kode }} -
-                                                    {{ Carbon\Carbon::parse($item->user->tanggal_lahir)->diffInYears(Carbon\Carbon::now()) }}
-                                                    th -
-                                                    {{ $item->user->name }} - {{ $item->user->desa->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="iSpesialis">Keluhan</label>
-                                        {!! Form::textarea('keluhan', null, ['class' => 'form-control', 'id' => 'iSpesialis', 'rows' => '3']) !!}
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card card-warning">
+                                <div class="card-header">
+                                    <h3 class="card-title">Data Pasien</h3>
+                                </div>
+                                <div class="card-body">
+                                    {{-- <dl class="row">
+                                        <dt class="col-sm-2">Kode</dt>
+                                        <dd class="col-sm-10">{{ $pasien->kode }}</dd>
+                                        <dt class="col-sm-2">NIK</dt>
+                                        <dd class="col-sm-10">{{ $pasien->user->nik }}</dd>
+                                        <dt class="col-sm-2">Nama</dt>
+                                        <dd class="col-sm-10">{{ $pasien->user->name }}</dd>
+                                        <dt class="col-sm-2">TTL</dt>
+                                        <dd class="col-sm-10">{{ $pasien->user->tempat_lahir }},
+                                            {{ Carbon\Carbon::parse($pasien->user->tanggal_lahir)->format('d F Y') }}
+                                        </dd>
+                                        <dt class="col-sm-2">Umur</dt>
+                                        <dd class="col-sm-10">
+                                            {{ Carbon\Carbon::parse($pasien->user->tanggal_lahir)->diffInYears(Carbon\Carbon::now()) }}
+                                            Tahun</dd>
+                                    </dl> --}}
                                 </div>
                             </div>
                         </div>

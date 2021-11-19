@@ -5,6 +5,10 @@ namespace Modules\Apotek\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Modules\Pasien\Entities\Pasien;
+use Modules\Perawatan\Entities\Perawatan;
+use Modules\Poliklinik\Entities\Poliklinik;
 
 class ApotekController extends Controller
 {
@@ -14,7 +18,12 @@ class ApotekController extends Controller
      */
     public function index()
     {
-        return view('apotek::index');
+        $perawatans = Perawatan::where('status', '>=',1)->latest()->get();
+        $polikliniks = Poliklinik::get();
+        // $pasien = Pasien::where('user_id', Auth::user()->id)->first();
+        $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pengambilan obat', 'Selesai'];
+        return view('apotek::admin.index', compact(['polikliniks', 'perawatans',]))->with(['i' => 0]);
+        // return view('apotek::index');
     }
 
     /**
@@ -53,7 +62,12 @@ class ApotekController extends Controller
      */
     public function edit($id)
     {
-        return view('apotek::edit');
+        $perawatan = Perawatan::where('kode', $id)->first();
+        $reseps = $perawatan->reseps;
+        $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pembayaran obat', 'Penyiapan obat', 'Pemngambilan', 'Selesai'];
+
+        return view('rawatjalan::admin.edit', compact(['perawatan', 'reseps', 'status', ]))->with(['i' => 0]);
+        // return view('apotek::edit');
     }
 
     /**

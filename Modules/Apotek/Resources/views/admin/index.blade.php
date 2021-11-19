@@ -58,10 +58,10 @@
                                             <th>No.</th>
                                             <th>Kode Regis</th>
                                             <th>Tanggal</th>
-                                            <th>Poliklinik</th>
                                             <th>Nama Pasien</th>
-                                            <th>Dokter</th>
+                                            <th>Dokter - Poliklinik</th>
                                             <th>Keluhan</th>
+                                            <th>Status Resep</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -72,9 +72,9 @@
                                                 <td>{{ ++$i }}</td>
                                                 <td>{{ $item->kode }}</td>
                                                 <td>{{ Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
-                                                <td>{{ $item->poliklinik->name }}</td>
                                                 <td>{{ $item->pasien->user->name }}</td>
-                                                <td>{{ $item->dokter->user->name }}</td>
+                                                <td>{{ $item->dokter->user->name }} <br>{{ $item->poliklinik->name }}</td>
+                                                <td>{{ $item->keluhan }}</td>
                                                 <td>{{ $item->keluhan }}</td>
                                                 <td>
                                                     @if ($item->status == 0)
@@ -98,10 +98,10 @@
                                                 </td>
                                                 <td>
                                                     <a class="btn btn-xs btn-warning"
-                                                        href="{{ route('admin.rawat-jalan.edit', $item->kode) }}"
+                                                        href="{{ route('admin.apotek.edit', $item->kode) }}"
                                                         data-toggle="tooltip" title="Edit {{ $item->kode }}"><i
                                                             class=" fas fa-edit"></i></a>
-                                                    <a href="{{ route('admin.rawat-jalan.destroy', $item->id) }}"
+                                                    <a href="{{ route('admin.apotek.destroy', $item->id) }}"
                                                         class="btn btn-xs btn-danger"
                                                         onclick="return confirm('Are you sure you want to delete this item ?')"
                                                         data-toggle="tooltip" title="Hapus {{ $item->name }}"
@@ -120,7 +120,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
+    {{-- <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -194,7 +194,7 @@
                 {!! Form::close() !!}
             </div>
         </div>
-    </div>
+    </div> --}}
 @stop
 
 @section('plugins.Datatables', true)

@@ -22,7 +22,7 @@ class RawatJalanController extends Controller
         $perawatans = Perawatan::latest()->get();
         $polikliniks = Poliklinik::get();
         $pasiens = Pasien::latest()->get();
-        $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pembayaran obat', 'Penyiapan obat', 'Pemngambilan', 'Selesai'];
+        $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pembayaran obat', 'Penyiapan obat', 'Pengambilan obat', 'Selesai'];
         return view('rawatjalan::admin.index', compact(['pasiens', 'perawatans', 'polikliniks',]))->with(['i' => 0]);
     }
     public function create()
@@ -64,19 +64,10 @@ class RawatJalanController extends Controller
     public function edit($id)
     {
         $perawatan = Perawatan::where('kode', $id)->first();
-        $obats = Obat::latest()->get();
-        $spesialis = [
-            'Umum' => 'Umum',
-            'Penyakit Dalam' => 'Penyakit Dalam',
-            'Anak' => 'Anak',
-            'THT-KL' => 'THT-KL',
-            'Gigi & Mulut' => 'Gigi & Mulut',
-            'Mata' => 'Mata',
-        ];
         $reseps = $perawatan->reseps;
         $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pembayaran obat', 'Penyiapan obat', 'Pemngambilan', 'Selesai'];
 
-        return view('rawatjalan::admin.edit', compact(['perawatan', 'reseps', 'status', 'obats', 'spesialis']))->with(['i' => 0]);
+        return view('rawatjalan::admin.edit', compact(['perawatan', 'reseps', 'status', ]))->with(['i' => 0]);
     }
     public function update(Request $request, $id)
     {

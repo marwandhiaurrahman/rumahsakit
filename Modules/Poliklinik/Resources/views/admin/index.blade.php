@@ -78,7 +78,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a href="#" class="text-bold">
+                                                    <a href="{{route('admin.poliklinik.show', $item->kode)}}" class="text-bold">
                                                         {{ $item->perawatans->where('status', 0)->count() }} Pasien</a>
                                                 </td>
                                                 <td>
