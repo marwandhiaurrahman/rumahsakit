@@ -6,7 +6,9 @@ use Modules\Dokter\Http\Controllers\DokterController;
 use Modules\Obat\Http\Controllers\ObatController;
 use Modules\Obat\Http\Controllers\ResepObatController;
 use Modules\Pasien\Http\Controllers\PasienController;
+use Modules\Pasien\Http\Controllers\PasienUserController;
 use Modules\RawatJalan\Http\Controllers\RawatJalanController;
+use Modules\RawatJalan\Http\Controllers\RawatJalanPasienController;
 use Modules\Resep\Http\Controllers\ResepController;
 use Modules\Role\Http\Controllers\RoleController;
 use Modules\Transaksi\Entities\Transaksi;
@@ -48,13 +50,17 @@ Route::get('/profil', [UserController::class, 'profile'])->name('profil')->middl
 Route::patch('/profil',  [UserController::class, 'profile_update'])->name('profil.update')->middleware('auth');
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
-    Route::resource('role', RoleController::class);
-    Route::resource('user', UserController::class);
-    Route::resource('pasien', PasienController::class);
-    Route::resource('dokter', DokterController::class);
-    Route::resource('obat', ObatController::class);
-    Route::resource('resep-obat', ResepObatController::class);
-    Route::resource('rawat-jalan', RawatJalanController::class);
+    // Route::resource('role', RoleController::class);
+    // Route::resource('user', UserController::class);
+    // Route::resource('pasien', PasienController::class);
+    // Route::resource('dokter', DokterController::class);
+    // Route::resource('obat', ObatController::class);
+    // Route::resource('resep-obat', ResepObatController::class);
+    // Route::resource('rawat-jalan', RawatJalanController::class);
     // Route::resource('transaksi', Transaksi::class);
-    Route::resource('apotek', ApotekController::class);
+    // Route::resource('apotek', ApotekController::class);
+});
+
+Route::prefix('pasien')->name('pasien.')->middleware('auth')->group(function () {
+    // Route::resource('rawat-jalan', RawatJalanPasienController::class);
 });

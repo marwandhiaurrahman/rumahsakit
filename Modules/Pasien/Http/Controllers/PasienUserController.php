@@ -12,13 +12,23 @@ use Laravolt\Indonesia\Models\Province;
 use Modules\Pasien\Entities\Pasien;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class PasienController extends Controller
+
+class PasienUserController extends Controller
 {
     /**
      * Display a listing of the resource.
      * @return Renderable
      */
     public function index()
+    {
+        return view('pasien::index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     * @return Renderable
+     */
+    public function create()
     {
         $pasiens = Pasien::latest()->get();
         $provinces = Province::pluck('name', 'code');
@@ -36,16 +46,7 @@ class PasienController extends Controller
             'Cerai Hidup' => 'Cerai Hidup',
             'Cerai Mati' => 'Cerai Mati',
         ];
-        return view('pasien::admin.index', compact(['pasiens', 'agamas', 'kawin', 'provinces']))->with(['i' => 0]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
-    {
-        return view('pasien::create');
+        return view('pasien::pasien.create', compact(['pasiens', 'agamas', 'kawin', 'provinces']))->with(['i' => 0]);
     }
 
     /**
@@ -56,7 +57,6 @@ class PasienController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-
         $request->validate([
             'nik' => 'required|unique:users,nik',
             'name' => 'required',
@@ -78,7 +78,7 @@ class PasienController extends Controller
         $kode =  $time->year . $time->month . str_pad($time->day, 2, '0', STR_PAD_LEFT) . str_pad($pasiens->count() + 1, 3, '0', STR_PAD_LEFT);
         $request['password'] =  Hash::make($request->password);
 
-        $user = User::create($request->all());
+        $user = User::updateOrCreate($request->except(['_token']));
         $user->assignRole('Pasien');
         Pasien::create([
             'user_id' => $user->id,
@@ -86,7 +86,7 @@ class PasienController extends Controller
             'status' => 0
         ]);
         Alert::success('Success Info', 'Success Message');
-        return redirect()->route('admin.pasien.index');
+        return redirect()->route('login');
     }
 
     /**

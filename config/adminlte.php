@@ -246,11 +246,26 @@ return [
             'url'         => 'home',
             'icon'        => 'fas fa-fw fa-home',
         ],
-        ['header' => 'PELAYANAN'],
+        //menu pasien
+        [
+            'header' => 'PELAYANAN PASIEN',
+            'can' => 'pasien-role'
+        ],
+        [
+            'text' => 'Rawat Jalan',
+            'route'  => 'pasien.rawat-jalan.index',
+            'icon' => 'fas fa-fw fa-clinic-medical',
+            'can' => 'pasien-role',
+        ],
+        [
+            'header' => 'PELAYANAN',
+            'can' => 'admin-role'
+        ],
         [
             'text' => 'Rawat Jalan',
             'url'  => 'admin/rawat-jalan',
             'icon' => 'fas fa-fw fa-clinic-medical',
+            'can' => 'admin-role',
         ],
         // [
         //     'text' => 'Rawat Inap',
@@ -261,31 +276,43 @@ return [
             'text' => 'Apotek',
             'url'  => '#',
             'icon' => 'fas fa-fw fa-first-aid',
+            'can' => 'admin-role',
         ],
-        ['header' => 'LAPORAN'],
+        [
+            'header' => 'LAPORAN',
+            'can' => 'admin-role',
+        ],
         [
             'text' => 'Rekam Medis',
+            'can' => 'admin-role',
             'url'  => '#',
             'icon' => 'fas fa-fw fa-id-badge',
         ],
         [
             'text' => 'Laporan Pelayanan',
             'url'  => '#',
+            'can' => 'admin-role',
             'icon' => 'fas fa-fw fa-notes-medical',
         ],
         [
             'text' => 'Laporan Keuangan',
             'url'  => '#',
+            'can' => 'admin-role',
             'icon' => 'fas fa-fw fa-users',
         ],
-        ['header' => 'DATABASE'],
+        [
+            'header' => 'DATABASE',
+            'can' => 'admin-role',
+        ],
         [
             'text' => 'Pasien',
             'url'  => 'admin/pasien',
+            'can' => 'admin-role',
             'icon' => 'fas fa-fw fa-hospital-user',
         ],
         [
             'text' => 'Dokter',
+            'can' => 'admin-role',
             'url'  => 'admin/dokter',
             'icon' => 'fas fa-fw fa-user-md',
         ],
@@ -296,6 +323,7 @@ return [
         // ],
         [
             'text' => 'Obat',
+            'can' => 'admin-role',
             'url'  => 'admin/obat',
             'icon' => 'fas fa-fw fa-tablets',
         ],
@@ -313,11 +341,13 @@ return [
         [
             'text' => 'Data User',
             'url'  => 'admin/user',
+            'can' => 'admin-role',
             'icon' => 'fas fa-fw fa-users',
         ],
         [
             'text' => 'Data Role',
             'url'  => 'admin/role',
+            'can' => 'admin-role',
             'icon' => 'fas fa-fw fa-id-card',
         ],
         // [
