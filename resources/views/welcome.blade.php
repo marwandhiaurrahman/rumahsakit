@@ -93,7 +93,7 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-      <a href="{{route('login')}}" class="appointment-btn scrollto"><span class="d-none d-md-inline">Login</span></a>
+      <a href="{{route('login')}}" class="appointment-btn scrollto"><span class="d-none d-md-inline"></span>Login</a>
 
     </div>
   </header><!-- End Header -->
