@@ -85,7 +85,12 @@
                                                     <a href="#" class="text-bold"> {{ $item->perawatans->count() }}
                                                         Pasien</a>
                                                 </td>
-                                                <td>{{ $item->status }}</td>
+                                                <td>
+                                                    <a class="btn btn-xs btn-warning"
+                                                    href="{{ route('admin.rawat-jalan.edit', $item->id) }}"
+                                                    data-toggle="tooltip" title="Edit {{ $item->id }}"><i
+                                                        class=" fas fa-edit"></i></a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Transaksi\Entities\Transaksi;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class TransaksiController extends Controller
 {
@@ -16,8 +17,8 @@ class TransaksiController extends Controller
     public function index()
     {
         $transaksis = Transaksi::get();
-        dd($transaksis);
-        return view('transaksi::index');
+        // dd($transaksis);
+        return view('transaksi::admin.index', compact(['transaksis']))->with(['i' => 0]);
     }
 
     /**
@@ -56,7 +57,12 @@ class TransaksiController extends Controller
      */
     public function edit($id)
     {
-        return view('transaksi::edit');
+
+        $transaksi = Transaksi::find($id);
+        $perawatan = $transaksi->perawatan;
+        $status = ['Belum valid', 'Valid', 'Gagal'];
+        $reseps = $perawatan->reseps;
+        return view('transaksi::admin.edit', compact(['transaksi', 'reseps', 'status', 'perawatan']))->with(['i' => 0]);
     }
 
     /**
@@ -67,7 +73,15 @@ class TransaksiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $transaksi = Transaksi::find($id);
+        // dd($request->all());
+        $transaksi->update([
+            'status' => $request->status,
+            'keterangan' => $request->keterangan,
+        ]);
+
+        Alert::success('Success Info', 'Success Message');
+        return redirect()->route('admin.transaksi.edit', $id);
     }
 
     /**

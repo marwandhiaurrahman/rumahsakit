@@ -86,15 +86,18 @@ class ResepObatController extends Controller
             $value->update(['status' => 1]);
         }
         $perawatan->update(['status' => 2]);
-
         $request['kode'] = $perawatan->kode;
         $request['perawatan_id'] = $perawatan->id;
-        $request['tipe'] = 'Tipe';
+        $request['tipe'] = 'Debit';
         $request['status'] = 0;
         $request['harga'] = $perawatan->reseps->sum('harga');
-        Transaksi::updateOrCreate($request->except(['cek']));
 
-        // dd($request->all());
+        if ($perawatan->kode == Transaksi::where('kode', $perawatan->kode)->first()->kode) {
+            $transaksi = Transaksi::where('kode', $perawatan->kode)->first();
+            $transaksi->update($request->all());
+        } else {
+            Transaksi::updateOrCreate($request->except(['cek']));
+        }
 
         Alert::success('Success Info', 'Success Message');
         return redirect()->route('admin.rawat-jalan.edit', $id);

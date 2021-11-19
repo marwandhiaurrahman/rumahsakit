@@ -264,6 +264,8 @@ return [
             'url'  => '#',
             'icon' => 'fas fa-fw fa-clinic-medical',
             'can' => 'pasien-role',
+            'active' => ['pasien/poliklinik', 'regex:@^pasien/poliklinik/[0-9]+$@', 'regex:@^pasien/poliklinik/[0-9]/edit+$@', 'pasien/poliklinik/create',]
+
         ],
         [
             'text' => 'Apotek',
@@ -310,18 +312,24 @@ return [
             'can' => 'admin-role',
             'url'  => 'admin/poliklinik',
             'icon' => 'fas fa-fw fa-clinic-medical',
+            'active' => ['admin/poliklinik', 'regex:@^admin/poliklinik/[0-9]+$@', 'regex:@^admin/poliklinik/[0-9]/edit+$@', 'admin/poliklinik/create',]
+
         ],
         [
             'text' => 'Apotek',
             'url'  => 'admin/apotek',
             'icon' => 'fas fa-fw fa-first-aid',
             'can' => 'admin-role',
+            'active' => ['admin/apotek', 'regex:@^admin/apotek/[0-9]+$@', 'regex:@^admin/apotek/[0-9]/edit+$@', 'admin/apotek/create',]
+
         ],
         [
             'text' => 'Transaksi',
             'url'  => 'admin/transaksi',
             'icon' => 'fas fa-fw fa-money-check-alt',
             'can' => 'admin-role',
+            'active' => ['admin/transaksi', 'regex:@^admin/transaksi/[0-9]+$@', 'regex:@^admin/transaksi/[0-9]/edit+$@', 'admin/transaksi/create',]
+
         ],
         [
             'header' => 'LAPORAN',
