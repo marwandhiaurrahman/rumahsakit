@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Laravolt\Indonesia\Models\Province;
 use Modules\Dokter\Entities\Dokter;
+use Modules\Poliklinik\Entities\Poliklinik;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class PoliklinikController extends Controller
 {
@@ -16,31 +19,10 @@ class PoliklinikController extends Controller
      */
     public function index()
     {
-        $dokters = Dokter::latest()->get();
-        $provinces = Province::pluck('name', 'code');
-        $agamas = [
-            'Islam' => 'Islam',
-            'Protestan' => 'Protestan',
-            'Katolik' => 'Katolik',
-            'Hindu' => 'Hindu',
-            'Budha' => 'Budha',
-            'Konghucu' => 'Konghucu',
-        ];
-        $kawin = [
-            'Belum Kawin' => 'Belum Kawin',
-            'Kawin' => 'Kawin',
-            'Cerai Hidup' => 'Cerai Hidup',
-            'Cerai Mati' => 'Cerai Mati',
-        ];
-        $spesialis = [
-            'Umum' => 'Umum',
-            'Penyakit Dalam' => 'Penyakit Dalam',
-            'Anak' => 'Anak',
-            'THT-KL' => 'THT-KL',
-            'Gigi & Mulut' => 'Gigi & Mulut',
-            'Mata' => 'Mata',
-        ];
-        return view('poliklinik::admin.index', compact(['dokters', 'spesialis', 'agamas', 'kawin', 'provinces']))->with(['i' => 0]);
+        $dokters = Dokter::all();
+        $polikliniks = Poliklinik::latest()->get();
+
+        return view('poliklinik::admin.index', compact(['dokters', 'polikliniks', ]))->with(['i' => 0]);
     }
 
     /**
@@ -59,7 +41,16 @@ class PoliklinikController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kode' => 'required',
+            'name' => 'required',
+            'dokter_id' => 'required',
+        ]);
+        $request['status'] = 1;
+        Poliklinik::updateOrCreate($request->except(['_token']));
+
+        Alert::success('Success Info', 'Success Message');
+        return redirect()->route('admin.poliklinik.index');
     }
 
     /**

@@ -15,7 +15,10 @@ class CreatePolikliniksTable extends Migration
     {
         Schema::create('polikliniks', function (Blueprint $table) {
             $table->id();
-
+            $table->string('kode')->unique();
+            $table->string('name');
+            $table->string('status');
+            $table->foreignId('dokter_id')->unsigned()->references('id')->on('dokters');
             $table->timestamps();
         });
     }
