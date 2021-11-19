@@ -258,7 +258,7 @@ return [
             'can' => 'pasien-role',
         ],
         [
-            'text' => 'Ppliklinik',
+            'text' => 'Poliklinik',
             'url'  => '#',
             'icon' => 'fas fa-fw fa-clinic-medical',
             'can' => 'pasien-role',
