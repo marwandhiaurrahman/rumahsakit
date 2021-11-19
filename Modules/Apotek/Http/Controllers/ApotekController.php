@@ -18,12 +18,12 @@ class ApotekController extends Controller
      */
     public function index()
     {
-        $perawatans = Perawatan::where('status', '>=',1)->latest()->get();
+        $perawatans = Perawatan::where('status', '>=',2)->latest()->get();
         $polikliniks = Poliklinik::get();
         // $pasien = Pasien::where('user_id', Auth::user()->id)->first();
+        // dd($perawatans->first()->reseps->count());
         $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pengambilan obat', 'Selesai'];
         return view('apotek::admin.index', compact(['polikliniks', 'perawatans',]))->with(['i' => 0]);
-        // return view('apotek::index');
     }
 
     /**

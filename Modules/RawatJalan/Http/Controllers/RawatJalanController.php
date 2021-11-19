@@ -68,21 +68,25 @@ class RawatJalanController extends Controller
         $obats = Obat::get();
         $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pembayaran obat', 'Penyiapan obat', 'Pemngambilan', 'Selesai'];
 
-        return view('rawatjalan::admin.edit', compact(['perawatan','obats', 'reseps', 'status',]))->with(['i' => 0]);
+        return view('rawatjalan::admin.edit', compact(['perawatan', 'obats', 'reseps', 'status',]))->with(['i' => 0]);
     }
     public function update(Request $request, $id)
     {
         $request->validate([
             'cek' => 'required',
+            'status' => 'required',
         ]);
+        $perawatan = Perawatan::find($id);
 
-        $perawatan = Perawatan::where('id', $id)->first();
         if ($request->cek == 1) {
-            $perawatan->update($request->all());
+            $perawatan->update([
+                'status' => $request->status,
+                'analisis' => $request->analisis,
+            ]);
         }
 
         Alert::success('Success Info', 'Success Message');
-        return redirect()->route('admin.rawat-jalan.index');
+        return redirect()->route('admin.rawat-jalan.edit', $id);
     }
     public function destroy($id)
     {

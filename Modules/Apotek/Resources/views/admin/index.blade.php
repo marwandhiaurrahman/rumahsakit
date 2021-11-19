@@ -75,23 +75,28 @@
                                                 <td>{{ $item->dokter->user->name }} <br>{{ $item->poliklinik->name }}
                                                 </td>
                                                 <td>
-                                                    @if ($item->reseps->first()->status == 0)
-                                                        <label class="badge badge-danger">Menunggu konfirmasi dokter</label>
+                                                    @if ($item->reseps->count())
+                                                        @if ($item->reseps->first()->status == 0)
+                                                            <label class="badge badge-danger">Menunggu konfirmasi
+                                                                dokter</label>
+                                                        @endif
+                                                        @if ($item->reseps->first()->status == 1)
+                                                            <label class="badge badge-warning">Menyiapkan obat</label>
+                                                        @endif
+                                                        @if ($item->reseps->first()->status == 2)
+                                                            <label class="badge badge-warning">Pengambilan obat</label>
+                                                        @endif
+                                                        @if ($item->reseps->first()->status == 3)
+                                                            <label class="badge badge-warning">Selesai</label>
+                                                        @endif
+                                                        <br>
+                                                        @foreach ($item->reseps as $obat)
+                                                            -{{ $obat->name }} {{ $obat->stok }}
+                                                            {{ $obat->obat->satuan }} <br>
+                                                        @endforeach
+                                                    @else
+                                                        Tanpa obat
                                                     @endif
-                                                    @if ($item->reseps->first()->status == 1)
-                                                        <label class="badge badge-warning">Menyiapkan obat</label>
-                                                    @endif
-                                                    @if ($item->reseps->first()->status == 2)
-                                                        <label class="badge badge-warning">Pengambilan obat</label>
-                                                    @endif
-                                                    @if ($item->reseps->first()->status == 3)
-                                                        <label class="badge badge-warning">Selesai</label>
-                                                    @endif
-                                                    <br>
-                                                    @foreach ($item->reseps as $obat)
-                                                        -{{ $obat->name }} {{ $obat->stok }}
-                                                        {{ $obat->obat->satuan }} <br>
-                                                    @endforeach
                                                 </td>
                                                 <td>
                                                     @if ($item->status == 0)

@@ -10,7 +10,7 @@ class Transaksi extends Model
     use HasFactory;
 
     protected $fillable = [
-        'kode','perawatan_id','tipe','harga','ketarangan','status'
+        'kode','perawatan_id','tipe','harga','ketarangan','status',
     ];
 
     protected static function newFactory()

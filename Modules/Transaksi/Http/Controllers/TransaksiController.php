@@ -5,6 +5,7 @@ namespace Modules\Transaksi\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Transaksi\Entities\Transaksi;
 
 class TransaksiController extends Controller
 {
@@ -14,6 +15,8 @@ class TransaksiController extends Controller
      */
     public function index()
     {
+        $transaksis = Transaksi::get();
+        dd($transaksis);
         return view('transaksi::index');
     }
 

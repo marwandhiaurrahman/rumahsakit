@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Modules\Obat\Entities\Obat;
 use Modules\Obat\Entities\Resep;
 use Modules\Perawatan\Entities\Perawatan;
+use Modules\Transaksi\Entities\Transaksi;
 use RealRashid\SweetAlert\Facades\Alert;
 
 
@@ -78,16 +79,25 @@ class ResepObatController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $perawatan = Perawatan::find($id);
         foreach ($perawatan->reseps as $value) {
             $value->update(['status' => 1]);
         }
-        // dd($perawatan->reseps);
+        $perawatan->update(['status' => 2]);
+
+        $request['kode'] = $perawatan->kode;
+        $request['perawatan_id'] = $perawatan->id;
+        $request['tipe'] = 'Tipe';
+        $request['status'] = 0;
+        $request['harga'] = $perawatan->reseps->sum('harga');
+        Transaksi::updateOrCreate($request->except(['cek']));
+
+        // dd($request->all());
+
         Alert::success('Success Info', 'Success Message');
         return redirect()->route('admin.rawat-jalan.edit', $id);
-        // return view('obat::edit');
     }
 
     /**

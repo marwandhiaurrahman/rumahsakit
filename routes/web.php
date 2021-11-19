@@ -10,9 +10,8 @@ use Modules\Pasien\Http\Controllers\PasienUserController;
 use Modules\Poliklinik\Http\Controllers\PoliklinikController;
 use Modules\RawatJalan\Http\Controllers\RawatJalanController;
 use Modules\RawatJalan\Http\Controllers\RawatJalanPasienController;
-use Modules\Resep\Http\Controllers\ResepController;
 use Modules\Role\Http\Controllers\RoleController;
-use Modules\Transaksi\Entities\Transaksi;
+use Modules\Transaksi\Http\Controllers\TransaksiController;
 use Modules\User\Http\Controllers\DependentDropdownController;
 use Modules\User\Http\Controllers\UserController;
 
@@ -59,7 +58,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('obat', ObatController::class);
     Route::resource('resep-obat', ResepObatController::class);
     Route::resource('rawat-jalan', RawatJalanController::class);
-    Route::resource('transaksi', Transaksi::class);
+    Route::resource('transaksi', TransaksiController::class);
     Route::resource('apotek', ApotekController::class);
 });
 
