@@ -77,8 +77,14 @@
                                                         <label class="badge badge-success">Non-Aktif</label>
                                                     @endif
                                                 </td>
-                                                <td>{{ $item->perawatans }}</td>
-                                                <td>{{ $item->status }}</td>
+                                                <td>
+                                                    <a href="#" class="text-bold">
+                                                        {{ $item->perawatans->where('status', 0)->count() }} Pasien</a>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="text-bold"> {{ $item->perawatans->count() }}
+                                                        Pasien</a>
+                                                </td>
                                                 <td>{{ $item->status }}</td>
                                             </tr>
                                         @endforeach

@@ -5,6 +5,7 @@ namespace Modules\Poliklinik\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Dokter\Entities\Dokter;
+use Modules\Perawatan\Entities\Perawatan;
 
 class Poliklinik extends Model
 {
@@ -27,6 +28,10 @@ class Poliklinik extends Model
     public function dokter()
     {
         return $this->belongsTo(Dokter::class);
+    }
+    public function perawatans()
+    {
+        return $this->hasMany(Perawatan::class);
     }
 
 }

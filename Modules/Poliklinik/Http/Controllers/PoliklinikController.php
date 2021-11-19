@@ -21,8 +21,8 @@ class PoliklinikController extends Controller
     {
         $dokters = Dokter::all();
         $polikliniks = Poliklinik::latest()->get();
-
-        return view('poliklinik::admin.index', compact(['dokters', 'polikliniks', ]))->with(['i' => 0]);
+        // dd($polikliniks->first()->perawatans->count());
+        return view('poliklinik::admin.index', compact(['dokters', 'polikliniks',]))->with(['i' => 0]);
     }
 
     /**
