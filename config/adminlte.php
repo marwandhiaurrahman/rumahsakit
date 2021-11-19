@@ -253,9 +253,11 @@ return [
         ],
         [
             'text' => 'Rawat Jalan',
-            'route'  => 'pasien.rawat-jalan.index',
+            'url'  => 'pasien/rawat-jalan',
             'icon' => 'fas fa-fw fa-clinic-medical',
             'can' => 'pasien-role',
+            'active' => ['pasien/rawat-jalan', 'regex:@^pasien/rawat-jalan/[0-9]+$@', 'regex:@^pasien/rawat-jalan/[0-9]/edit+$@', 'pasien/rawat-jalan/create',]
+
         ],
         [
             'text' => 'Poliklinik',
@@ -295,6 +297,8 @@ return [
             'url'  => 'admin/rawat-jalan',
             'icon' => 'fas fa-fw fa-clinic-medical',
             'can' => 'admin-role',
+            'active' => ['admin/rawat-jalan', 'regex:@^admin/rawat-jalan/[0-9]+$@', 'regex:@^admin/rawat-jalan/[0-9]/edit+$@', 'admin/rawat-jalan/create',]
+
         ],
         // [
         //     'text' => 'Rawat Inap',

@@ -20,9 +20,9 @@
                             <i class="fas fa-user-injured"></i>
                         </div>
                         {{-- @can('admin-role') --}}
-                            <a href="#" class="small-box-footer">
-                                Antrian Pasien Rawat Jalan <i class="fas fa-info-circle"></i>
-                            </a>
+                        <a href="#" class="small-box-footer">
+                            Antrian Pasien Rawat Jalan <i class="fas fa-info-circle"></i>
+                        </a>
                         {{-- @endcan --}}
                     </div>
                 </div>
@@ -60,7 +60,6 @@
                                             <th>Tanggal</th>
                                             <th>Nama Pasien</th>
                                             <th>Dokter - Poliklinik</th>
-                                            <th>Keluhan</th>
                                             <th>Status Resep</th>
                                             <th>Status</th>
                                             <th>Action</th>
@@ -73,9 +72,27 @@
                                                 <td>{{ $item->kode }}</td>
                                                 <td>{{ Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
                                                 <td>{{ $item->pasien->user->name }}</td>
-                                                <td>{{ $item->dokter->user->name }} <br>{{ $item->poliklinik->name }}</td>
-                                                <td>{{ $item->keluhan }}</td>
-                                                <td>{{ $item->keluhan }}</td>
+                                                <td>{{ $item->dokter->user->name }} <br>{{ $item->poliklinik->name }}
+                                                </td>
+                                                <td>
+                                                    @if ($item->reseps->first()->status == 0)
+                                                        <label class="badge badge-danger">Menunggu konfirmasi dokter</label>
+                                                    @endif
+                                                    @if ($item->reseps->first()->status == 1)
+                                                        <label class="badge badge-warning">Menyiapkan obat</label>
+                                                    @endif
+                                                    @if ($item->reseps->first()->status == 2)
+                                                        <label class="badge badge-warning">Pengambilan obat</label>
+                                                    @endif
+                                                    @if ($item->reseps->first()->status == 3)
+                                                        <label class="badge badge-warning">Selesai</label>
+                                                    @endif
+                                                    <br>
+                                                    @foreach ($item->reseps as $obat)
+                                                        -{{ $obat->name }} {{ $obat->stok }}
+                                                        {{ $obat->obat->satuan }} <br>
+                                                    @endforeach
+                                                </td>
                                                 <td>
                                                     @if ($item->status == 0)
                                                         <label class="badge badge-danger">Menunggu antrian</label>

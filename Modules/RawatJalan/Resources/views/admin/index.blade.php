@@ -98,8 +98,8 @@
                                                 </td>
                                                 <td>
                                                     <a class="btn btn-xs btn-warning"
-                                                        href="{{ route('admin.rawat-jalan.edit', $item->kode) }}"
-                                                        data-toggle="tooltip" title="Edit {{ $item->kode }}"><i
+                                                        href="{{ route('admin.rawat-jalan.edit', $item->id) }}"
+                                                        data-toggle="tooltip" title="Edit {{ $item->id }}"><i
                                                             class=" fas fa-edit"></i></a>
                                                     <a href="{{ route('admin.rawat-jalan.destroy', $item->id) }}"
                                                         class="btn btn-xs btn-danger"

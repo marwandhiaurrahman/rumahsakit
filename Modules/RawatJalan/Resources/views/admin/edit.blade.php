@@ -104,9 +104,10 @@
                                     <label for="iAnalisis">Analisis Dokter</label>
                                     {!! Form::textarea('analisis', null, ['class' => 'form-control' . ($errors->has('cek') ? ' is-invalid' : ''), 'id' => 'iAnalisis', 'rows' => '3', 'placeholder' => 'Masukan Hasil Analisis Dokter']) !!}
                                 </div>
-                                {{-- <a href="#" class="btn btn-primary btn-xs mb-3" data-toggle="modal"
+                                <a href="#" class="btn btn-primary btn-xs mb-3" data-toggle="modal"
                                     data-target="#createObat">Tambah Obat</a>
-                                <a href="" class="btn btn-success btn-xs mb-3" >Konfirmasi Resep Obat</a> --}}
+                                <a href="{{ route('admin.resep-obat.edit', $perawatan->id) }}"
+                                    class="btn btn-success btn-xs mb-3">Konfirmasi Resep Obat</a>
                                 <table id="example1" class="table table-bordered table-striped dataTable dtr-inline"
                                     role="grid" aria-describedby="example1_info">
                                     <thead>
@@ -133,6 +134,15 @@
                                                 <td>
                                                     @if ($item->status == 0)
                                                         <label class="badge badge-danger">Menunggu konfirmasi dokter</label>
+                                                    @endif
+                                                    @if ($item->status == 1)
+                                                        <label class="badge badge-warning">Menyiapkan obat</label>
+                                                    @endif
+                                                    @if ($item->status == 2)
+                                                        <label class="badge badge-warning">Pengambilan obat</label>
+                                                    @endif
+                                                    @if ($item->status == 3)
+                                                        <label class="badge badge-warning">Selesai</label>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -180,7 +190,7 @@
         </div>
     </div>
     {!! Form::close() !!}
-    {{-- <div class="modal fade" id="createObat" tabindex="-1" role="dialog" aria-labelledby="createObat" aria-hidden="true">
+    <div class="modal fade" id="createObat" tabindex="-1" role="dialog" aria-labelledby="createObat" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-success">
@@ -201,7 +211,7 @@
                             </ul>
                         </div>
                     @endif
-                    {!! Form::hidden('kode', $perawatan->kode) !!}
+                    {!! Form::hidden('perawatan_id', $perawatan->id) !!}
                     <div class="form-group">
                         <label for="iObat" class="form-label">Obat</label>
                         <select name="obat_id" id="obat_id" class="form-control">
@@ -224,25 +234,6 @@
                         <label for="iKeterangan" class="form-label">Keterangan</label>
                         {!! Form::text('keterangan', null, ['class' => 'form-control' . ($errors->has('keterangan') ? ' is-invalid' : ''), 'id' => 'iKeterangan', 'required', 'placeholder' => 'Keterangan Dosis Penggunaan']) !!}
                     </div>
-                    <div class="card card-warning">
-                        <div class="card-header">
-                            <h3 class="card-title">Data Detail Obat</h3>
-                        </div>
-                        <div class="card-body">
-                            <dl class="row">
-                                <dt class="col-sm-2">Kode</dt>
-                                <dd class="col-sm-10">123123123</dd>
-                                <dt class="col-sm-2">NIK</dt>
-                                <dd class="col-sm-10">1234123412341234</dd>
-                                <dt class="col-sm-2">Nama</dt>
-                                <dd class="col-sm-10">Marwan Dhiaur Rahman</dd>
-                                <dt class="col-sm-2">TTL</dt>
-                                <dd class="col-sm-10">Cirebon, 9 Mei 1998</dd>
-                                <dt class="col-sm-2">Umur</dt>
-                                <dd class="col-sm-10">23 Tahun</dd>
-                            </dl>
-                        </div>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Submit</button>
@@ -252,52 +243,6 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="createJasa" tabindex="-1" role="dialog" aria-labelledby="createJasa"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-success">
-                    <h5 class="modal-title" id="createModalLabel">Tambah Jasa untuk Perawatan</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {!! Form::open(['route' => 'admin.resep-obat.store', 'method' => 'POST', 'files' => true]) !!}
-                <div class="modal-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> Ada kesalahan input.<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    {!! Form::hidden('kode', $perawatan->kode) !!}
-                    <div class="form-group">
-                        <label for="iNama" class="form-label">Jasa Dokter </label>
-                        {!! Form::hidden('name', 'Jasa Dokter',) !!}
-                        {!! Form::text('dosis', null, ['class' => 'form-control' . ($errors->has('dosis') ? ' is-invalid' : ''), 'id' => 'iNama', 'required', 'placeholder' => 'Keterangan Jasa Dokter']) !!}
-                    </div>
-                    <div class="form-group">
-                        <label for="iHarga" class="form-label">Harga </label>
-                        {!! Form::hidden('stok', 1,) !!}
-                        {!! Form::number('harga', null, ['class' => 'form-control' . ($errors->has('harga') ? ' is-invalid' : ''), 'id' => 'iHarga', 'required', 'placeholder' => 'Harga Jasa Dokter']) !!}
-                    </div>
-                    <div class="form-group">
-                        <label for="iKeterangan" class="form-label">Keterangan</label>
-                        {!! Form::textarea('keterangan', null, ['class' => 'form-control' . ($errors->has('keterangan') ? ' is-invalid' : ''), 'id' => 'iKeterangan', 'rows'=>3, 'placeholder' => 'Keterangan Tambahan']) !!}
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Submit</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-                {!! Form::close() !!}
-            </div>
-        </div>
-    </div> --}}
 @stop
 @section('plugins.Datatables', true)
 

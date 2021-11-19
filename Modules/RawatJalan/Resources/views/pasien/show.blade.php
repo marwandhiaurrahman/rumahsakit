@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    {!! Form::model($perawatan, ['method' => 'PATCH', 'route' => ['pasien.rawat-jalan.update', $perawatan->kode], 'files' => true]) !!}
+    {!! Form::model($perawatan, ['method' => 'PATCH', 'route' => ['pasien.rawat-jalan.update', $perawatan->id], 'files' => true]) !!}
     <div class="row">
         <div class="col-md-6">
             <div class="card card-secondary">
@@ -39,7 +39,24 @@
                                 <dt>Status</dt>
                                 <dd>
                                     <h6>
-                                        {{  $perawatan->status }}
+                                        @if ($perawatan->status == 0)
+                                            <label class="badge badge-danger">Menunggu antrian</label>
+                                        @endif
+                                        @if ($perawatan->status == 1)
+                                            <label class="badge badge-warning">Pengecekan oleh dokter</label>
+                                        @endif
+                                        @if ($perawatan->status == 2)
+                                            <label class="badge badge-warning">Pembayaran obat</label>
+                                        @endif
+                                        @if ($perawatan->status == 3)
+                                            <label class="badge badge-warning">Penyiapan obat</label>
+                                        @endif
+                                        @if ($perawatan->status == 4)
+                                            <label class="badge badge-success">Pengambilan obat</label>
+                                        @endif
+                                        @if ($perawatan->status == 5)
+                                            <label class="badge badge-success">Selesai</label>
+                                        @endif
                                     </h6>
                                 </dd>
                             </dl>

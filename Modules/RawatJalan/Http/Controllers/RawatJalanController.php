@@ -63,11 +63,12 @@ class RawatJalanController extends Controller
     }
     public function edit($id)
     {
-        $perawatan = Perawatan::where('kode', $id)->first();
+        $perawatan = Perawatan::where('id', $id)->first();
         $reseps = $perawatan->reseps;
+        $obats = Obat::get();
         $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pembayaran obat', 'Penyiapan obat', 'Pemngambilan', 'Selesai'];
 
-        return view('rawatjalan::admin.edit', compact(['perawatan', 'reseps', 'status', ]))->with(['i' => 0]);
+        return view('rawatjalan::admin.edit', compact(['perawatan','obats', 'reseps', 'status',]))->with(['i' => 0]);
     }
     public function update(Request $request, $id)
     {
@@ -75,7 +76,7 @@ class RawatJalanController extends Controller
             'cek' => 'required',
         ]);
 
-        $perawatan = Perawatan::where('kode', $id)->first();
+        $perawatan = Perawatan::where('id', $id)->first();
         if ($request->cek == 1) {
             $perawatan->update($request->all());
         }

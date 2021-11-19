@@ -42,8 +42,8 @@
                                             <th>No.</th>
                                             <th>Kode Regis</th>
                                             <th>Tanggal</th>
+                                            <th>Pasien</th>
                                             <th>Poliklinik</th>
-                                            <th>Nama Pasien</th>
                                             <th>Dokter</th>
                                             <th>Keluhan</th>
                                             <th>Status</th>
@@ -56,8 +56,8 @@
                                                 <td>{{ ++$i }}</td>
                                                 <td>{{ $item->kode }}</td>
                                                 <td>{{ Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
-                                                <td>{{ $item->poliklinik->name }}</td>
                                                 <td>{{ $item->pasien->user->name }}</td>
+                                                <td>{{ $item->poliklinik->name }}</td>
                                                 <td>{{ $item->dokter->user->name }}</td>
                                                 <td>{{ $item->keluhan }}</td>
                                                 <td>
@@ -75,9 +75,9 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-xs btn-primary    "
-                                                        href="{{ route('pasien.rawat-jalan.show', $item->kode) }}"
-                                                        data-toggle="tooltip" title="Lihat Data {{ $item->kode }}"><i
+                                                    <a class="btn btn-xs btn-primary"
+                                                        href="{{ route('pasien.rawat-jalan.show', $item->id) }}"
+                                                        data-toggle="tooltip" title="Lihat Data {{ $item->id }}"><i
                                                             class=" fas fa-file-alt"></i></a>
                                                 </td>
                                             </tr>

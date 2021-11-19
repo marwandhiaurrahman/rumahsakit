@@ -37,12 +37,11 @@ class UserDatabaseSeeder extends Seeder
             "kewarganegaraan" => "Indonesia",
             'password' => bcrypt('qweqwe'),
         ]);
-        $user->assignRole('Pasien');
         $user->assignRole('Admin');
-        Pasien::create([
-            'user_id' => $user->id,
-            'kode' => 20211101999,
-            'status' => 0
-        ]);
+        // Pasien::create([
+        //     'user_id' => $user->id,
+        //     'kode' => 20211101999,
+        //     'status' => 0
+        // ]);
     }
 }

@@ -40,23 +40,23 @@ class ResepObatController extends Controller
     public function store(Request $request)
     {
         $obat = Obat::find($request->obat_id);
-        $perawatan = Perawatan::where('kode', $request->kode)->first();
-        if (!empty($obat)) {
-            $request['harga'] = $obat->harga;
+        if ($obat->stok - $request->stok >= 0) {
+            $perawatan = Perawatan::find($request->perawatan_id);
+            $perawatan->update($request->all());
+
+            $request['harga'] = $obat->harga * $request->stok;
             $request['name'] = $obat->name;
             $request['status'] = 0;
-            $request['perawatan_id'] = $perawatan->id;
+            Resep::updateOrCreate($request->except(['_token']));
+
+            Alert::success('Success Info', 'Success Message');
+            return redirect()->route('admin.rawat-jalan.edit', $request->perawatan_id);
         } else {
-            $request['status'] = 0;
-            $request['perawatan_id'] = $perawatan->id;
+            $perawatan = Perawatan::find($request->perawatan_id);
+            $perawatan->update($request->all());
+            Alert::error('Error Info', 'Error Message');
+            return redirect()->route('admin.rawat-jalan.edit', $request->perawatan_id);
         }
-
-            // dd($request->all());
-
-        Resep::updateOrCreate($request->except(['_token', 'kode']));
-
-        Alert::success('Success Info', 'Success Message');
-        return redirect()->route('admin.rawat-jalan.edit', $request->kode);
     }
 
     /**
@@ -80,7 +80,14 @@ class ResepObatController extends Controller
      */
     public function edit($id)
     {
-        return view('obat::edit');
+        $perawatan = Perawatan::find($id);
+        foreach ($perawatan->reseps as $value) {
+            $value->update(['status' => 1]);
+        }
+        // dd($perawatan->reseps);
+        Alert::success('Success Info', 'Success Message');
+        return redirect()->route('admin.rawat-jalan.edit', $id);
+        // return view('obat::edit');
     }
 
     /**

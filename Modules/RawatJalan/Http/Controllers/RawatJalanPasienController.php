@@ -17,9 +17,9 @@ class RawatJalanPasienController extends Controller
 {
     public function index()
     {
-        $perawatans = Perawatan::where('pasien_id', Auth::user()->id)->latest()->get();
-        $polikliniks = Poliklinik::get();
         $pasien = Pasien::where('user_id', Auth::user()->id)->first();
+        $perawatans = Perawatan::where('pasien_id', $pasien->id)->latest()->get();
+        $polikliniks = Poliklinik::get();
         $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pembayaran obat', 'Penyiapan obat', 'Pengambilan obat', 'Selesai'];
         return view('rawatjalan::pasien.index', compact(['polikliniks', 'pasien', 'perawatans',]))->with(['i' => 0]);
     }
@@ -57,7 +57,7 @@ class RawatJalanPasienController extends Controller
 
     public function show($id)
     {
-        $perawatan = Perawatan::where('kode', $id)->first();
+        $perawatan = Perawatan::find($id)->first();
         $reseps = $perawatan->reseps;
         $poliklinik = Poliklinik::pluck('name', 'id');
         $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pembayaran obat', 'Penyiapan obat', 'Pengambilan obat', 'Selesai'];
@@ -72,10 +72,10 @@ class RawatJalanPasienController extends Controller
 
     public function update(Request $request, $id)
     {
-        $perawatan = Perawatan::where('kode', $id)->first();
+        $perawatan = Perawatan::find($id)->first();
         $perawatan->update($request->all());
         Alert::success('Success Info', 'Success Message');
-        return redirect()->route('pasien.rawat-jalan.show', $id);
+        return redirect()->route('pasien.rawat-jalan.index');
     }
 
     public function destroy($id)
