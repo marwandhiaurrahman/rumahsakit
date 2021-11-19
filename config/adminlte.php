@@ -257,6 +257,34 @@ return [
             'icon' => 'fas fa-fw fa-clinic-medical',
             'can' => 'pasien-role',
         ],
+        [
+            'text' => 'Ppliklinik',
+            'url'  => '#',
+            'icon' => 'fas fa-fw fa-clinic-medical',
+            'can' => 'pasien-role',
+        ],
+        [
+            'text' => 'Apotek',
+            'url'  => '#',
+            'icon' => 'fas fa-fw fa-first-aid',
+            'can' => 'pasien-role',
+        ],
+        [
+            'header' => 'LAPORAN PELAYANAN',
+            'can' => 'pasien-role'
+        ],
+        [
+            'text' => 'Rekam Medis',
+            'can' => 'pasien-role',
+            'url'  => '#',
+            'icon' => 'fas fa-fw fa-id-badge',
+        ],
+        [
+            'text' => 'Laporan Keuangan',
+            'url'  => '#',
+            'can' => 'pasien-role',
+            'icon' => 'fas fa-fw fa-users',
+        ],
         //menu admin
         [
             'header' => 'PELAYANAN',
