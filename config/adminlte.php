@@ -257,6 +257,7 @@ return [
             'icon' => 'fas fa-fw fa-clinic-medical',
             'can' => 'pasien-role',
         ],
+        //menu admin
         [
             'header' => 'PELAYANAN',
             'can' => 'admin-role'
@@ -321,6 +322,12 @@ return [
         //     'url'  => '#',
         //     'icon' => 'fas fa-fw fa-hospital',
         // ],
+        [
+            'text' => 'Poliklinik',
+            'can' => 'admin-role',
+            'url'  => 'admin/poliklinik',
+            'icon' => 'fas fa-fw fa-clinic-medical',
+        ],
         [
             'text' => 'Obat',
             'can' => 'admin-role',

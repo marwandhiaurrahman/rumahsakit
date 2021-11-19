@@ -7,6 +7,7 @@ use Modules\Obat\Http\Controllers\ObatController;
 use Modules\Obat\Http\Controllers\ResepObatController;
 use Modules\Pasien\Http\Controllers\PasienController;
 use Modules\Pasien\Http\Controllers\PasienUserController;
+use Modules\Poliklinik\Http\Controllers\PoliklinikController;
 use Modules\RawatJalan\Http\Controllers\RawatJalanController;
 use Modules\RawatJalan\Http\Controllers\RawatJalanPasienController;
 use Modules\Resep\Http\Controllers\ResepController;
@@ -54,6 +55,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('user', UserController::class);
     Route::resource('pasien', PasienController::class);
     Route::resource('dokter', DokterController::class);
+    Route::resource('poliklinik', PoliklinikController::class);
     Route::resource('obat', ObatController::class);
     Route::resource('resep-obat', ResepObatController::class);
     Route::resource('rawat-jalan', RawatJalanController::class);
