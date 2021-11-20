@@ -8,16 +8,15 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
+use Laravolt\Indonesia\Models\City;
+use Laravolt\Indonesia\Models\District;
 use Laravolt\Indonesia\Models\Province;
+use Laravolt\Indonesia\Models\Village;
 use Modules\Pasien\Entities\Pasien;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class PasienController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
     public function index()
     {
         $pasiens = Pasien::latest()->get();
@@ -39,24 +38,13 @@ class PasienController extends Controller
         return view('pasien::admin.index', compact(['pasiens', 'agamas', 'kawin', 'provinces']))->with(['i' => 0]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
     public function create()
     {
         return view('pasien::create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
     public function store(Request $request)
     {
-        // dd($request->all());
-
         $request->validate([
             'nik' => 'required|unique:users,nik',
             'name' => 'required',
@@ -89,44 +77,56 @@ class PasienController extends Controller
         return redirect()->route('admin.pasien.index');
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
     public function show($id)
     {
         return view('pasien::show');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
+
     public function edit($id)
     {
-        return view('pasien::edit');
+        $pasien = Pasien::find($id);
+        $provinces = Province::pluck('name', 'code');
+        $cities = City::where('province_code', $pasien->user->province_id)->pluck('name', 'code');
+        $districts = District::where('city_code', $pasien->user->city_id)->pluck('name', 'code');
+        $villages = Village::where('district_code', $pasien->user->district_id)->pluck('name', 'code');
+        $agamas = [
+            'Islam' => 'Islam',
+            'Protestan' => 'Protestan',
+            'Katolik' => 'Katolik',
+            'Hindu' => 'Hindu',
+            'Budha' => 'Budha',
+            'Konghucu' => 'Konghucu',
+        ];
+        $kawin = [
+            'Belum Kawin' => 'Belum Kawin',
+            'Kawin' => 'Kawin',
+            'Cerai Hidup' => 'Cerai Hidup',
+            'Cerai Mati' => 'Cerai Mati',
+        ];
+        // dd($pasien);
+        return view('pasien::admin.edit', compact(['pasien', 'provinces', 'cities', 'districts', 'villages', 'agamas', 'kawin']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
     public function update(Request $request, $id)
     {
-        //
+        $pasien = Pasien::find($id);
+        $pasien->update($request->all());
+        $pasien->user->update($request->all());
+
+        Alert::success('Success Info', 'Success Message');
+        return redirect()->route('admin.pasien.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
     public function destroy($id)
     {
-        //
+        $pasien = Pasien::find($id);
+        if (empty($pasien->perawatans)) {
+            $pasien->delete();
+            Alert::success('Success Info', 'Success Message');
+        } else {
+            Alert::error('Success Info', 'Success Message');
+        }
+        return redirect()->route('admin.pasien.index');
     }
 }

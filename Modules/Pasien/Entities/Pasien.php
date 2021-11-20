@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravolt\Indonesia\Models\Village;
+use Modules\Perawatan\Entities\Perawatan;
 
 class Pasien extends Model
 {
@@ -39,5 +40,14 @@ class Pasien extends Model
     public function provinsi()
     {
         return $this->user->provinsi();
+    }
+    /**
+     * Get all of the perawatans for the Pasien
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function perawatans()
+    {
+        return $this->hasMany(Perawatan::class);
     }
 }

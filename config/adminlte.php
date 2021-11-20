@@ -300,7 +300,6 @@ return [
             'icon' => 'fas fa-fw fa-clinic-medical',
             'can' => 'admin-role',
             'active' => ['admin/rawat-jalan', 'regex:@^admin/rawat-jalan/[0-9]+$@', 'regex:@^admin/rawat-jalan/[0-9]/edit+$@', 'admin/rawat-jalan/create',]
-
         ],
         // [
         //     'text' => 'Rawat Inap',
@@ -313,7 +312,6 @@ return [
             'url'  => 'admin/poliklinik',
             'icon' => 'fas fa-fw fa-clinic-medical',
             'active' => ['admin/poliklinik', 'regex:@^admin/poliklinik/[0-9]+$@', 'regex:@^admin/poliklinik/[0-9]/edit+$@', 'admin/poliklinik/create',]
-
         ],
         [
             'text' => 'Apotek',
@@ -321,7 +319,6 @@ return [
             'icon' => 'fas fa-fw fa-first-aid',
             'can' => 'admin-role',
             'active' => ['admin/apotek', 'regex:@^admin/apotek/[0-9]+$@', 'regex:@^admin/apotek/[0-9]/edit+$@', 'admin/apotek/create',]
-
         ],
         [
             'text' => 'Transaksi',
@@ -362,12 +359,16 @@ return [
             'url'  => 'admin/pasien',
             'can' => 'admin-role',
             'icon' => 'fas fa-fw fa-hospital-user',
+            'active' => ['admin/pasien', 'regex:@^admin/pasien/[0-9]+$@', 'regex:@^admin/pasien/[0-9]/edit+$@', 'admin/pasien/create',]
+
         ],
         [
             'text' => 'Dokter',
             'can' => 'admin-role',
             'url'  => 'admin/dokter',
             'icon' => 'fas fa-fw fa-user-md',
+            'active' => ['admin/dokter', 'regex:@^admin/dokter/[0-9]+$@', 'regex:@^admin/dokter/[0-9]/edit+$@', 'admin/dokter/create',]
+
         ],
         // [
         //     'text' => 'Ruangan',
@@ -380,6 +381,8 @@ return [
             'can' => 'admin-role',
             'url'  => 'admin/obat',
             'icon' => 'fas fa-fw fa-tablets',
+            'active' => ['admin/obat', 'regex:@^admin/obat/[0-9]+$@', 'regex:@^admin/obat/[0-9]/edit+$@', 'admin/obat/create',]
+
         ],
         // [
         //     'text' => 'Penyakit',

@@ -1,86 +1,180 @@
 @extends('adminlte::page')
 
-@section('title', 'Anggota')
+@section('title', 'Edit Pasien')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Anggota Koperasi</h1>
+    <h1 class="m-0 text-dark">Edit Pasien</h1>
 @stop
 
 @section('content')
-<div class="row">
-    <!-- left column -->
-    <div class="col-md-12">
-      <!-- general form elements -->
-      <div class="card card-primary">
-        <div class="card-header">
-          <h3 class="card-title">Quick Example</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Identitas Pasien</h3>
+                </div>
+                {!! Form::model($pasien, ['method' => 'PATCH', 'route' => ['admin.pasien.update', $pasien->id], 'files' => true]) !!}
+                <div class="card-body">
+                    @if ($errors->any())
+                        <div class="alert alert-danger col-md-12">
+                            <strong>Whoops!</strong> Ada kesalahan input.<br><br>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="iNIK">NIK</label>
+                                {!! Form::text('nik', $pasien->user->nik, ['class' => 'form-control' . ($errors->has('nik') ? ' is-invalid' : ''), 'id' => 'iNIK', 'placeholder' => 'NIK', 'autofocus', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="iNama">Nama</label>
+                                {!! Form::text('name', $pasien->user->name, ['class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'id' => 'iNama', 'placeholder' => 'Nama', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="iTempatLahir">Tempat Tanggal Lahir</label>
+                                <div class="row m-0">
+                                    {!! Form::text('tempat_lahir', $pasien->user->tempat_lahir, ['class' => 'form-control  col-md-6 ' . ($errors->has('tempat_lahir') ? ' is-invalid' : ''), 'id' => 'iTempatLahir', 'placeholder' => 'Tempat Lahir', 'required']) !!}
+                                    {!! Form::date('tanggal_lahir', \Carbon\Carbon::parse($pasien->user->tanggal_lahir), ['class' => 'form-control col-md-6']) !!}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="iGender">Jenis Kelamin</label>
+                                <div class="custom-control custom-radio">
+                                    {!! Form::radio('gender', 'Laki-laki', $pasien->user->gender == 'Laki-laki', ['class' => 'custom-control-input', 'id' => 'gender1']) !!}
+                                    <label for="gender1" class="custom-control-label">Laki-Laki</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    {!! Form::radio('gender', 'Perempuan', $pasien->user->gender == 'Perempuan', ['class' => 'custom-control-input', 'id' => 'gender2']) !!}
+                                    <label for="gender2" class="custom-control-label">Perempuan</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="province_id" class="form-label">Provinsi</label>
+                                {!! Form::select('province_id', $provinces, $pasien->user->province_id, ['id' => 'province_id', 'class' => 'form-control']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="city_id" class="form-label">Kabupaten / Kota</label>
+                                {!! Form::select('city_id', $cities, $pasien->user->city_id, ['id' => 'city_id', 'class' => 'form-control']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="district_id" class="form-label">Kecamatan</label>
+                                {!! Form::select('district_id', $districts, $pasien->user->district_id, ['id' => 'district_id', 'class' => 'form-control']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="village_id" class="form-label">Desa / Kelurahan</label>
+                                {!! Form::select('village_id', $villages, $pasien->user->village_id, ['id' => 'village_id', 'class' => 'form-control']) !!}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPhone">Nomor Telephone</label>
+                                {!! Form::text('phone', $pasien->user->phone, ['class' => 'form-control' . ($errors->has('phone') ? ' is-invalid' : ''), 'id' => 'inputPhone', 'placeholder' => 'Nomor Telephone', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail">Email</label>
+                                {!! Form::email('email', $pasien->user->email, ['class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'id' => 'inputEmail', 'placeholder' => 'Email', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="inputUsername">Username</label>
+                                {!! Form::text('username', $pasien->user->username, ['class' => 'form-control' . ($errors->has('username') ? ' is-invalid' : ''), 'id' => 'inputUsername', 'placeholder' => 'Username', 'required']) !!}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="iAgama">Agama</label>
+                                {!! Form::select('agama', $agamas, $pasien->user->agama, ['class' => 'form-control' . ($errors->has('agama') ? ' is-invalid' : ''), 'id' => 'iAgama', 'placeholder' => 'Pilih Agama', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="iKawin">Status Perkawinan</label>
+                                {!! Form::select('status_kawin', $kawin, $pasien->user->status_kawin, ['class' => 'form-control' . ($errors->has('kawin') ? ' is-invalid' : ''), 'id' => 'iKawin', 'placeholder' => 'Pilih Status Kawin', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="iPekerjaan">Pekerjaan</label>
+                                {!! Form::text('pekerjaan', $pasien->user->pekerjaan, ['class' => 'form-control' . ($errors->has('pekerjaan') ? ' is-invalid' : ''), 'id' => 'iPekerjaan', 'placeholder' => 'Pekerjaan', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="iKewarganegaraan">Kewarganegaraan</label>
+                                {!! Form::text('kewarganegaraan', $pasien->user->kewarganegaraan, ['class' => 'form-control' . ($errors->has('kewarganegaraan') ? ' is-invalid' : ''), 'id' => 'iKewarganegaraan', 'placeholder' => 'Kewarganegaraan', 'required']) !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        {{-- <input type="checkbox"> --}}
+                        {!! Form::checkbox('cek', 1, null, ['class' => 'form-check-input', 'required', 'id' => 'exampleCheck1']) !!}
+                        <label class="form-check-label" for="exampleCheck1">Dengan ini menyatakan data telah sesuai</label>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
         </div>
-        <!-- /.card-header -->
-        <!-- form start -->
-        <form>
-          <div class="card-body">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <div class="form-group">
-              <label for="exampleInputFile">File input</label>
-              <div class="input-group">
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="exampleInputFile">
-                  <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                </div>
-                <div class="input-group-append">
-                  <span class="input-group-text">Upload</span>
-                </div>
-              </div>
-            </div>
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1">
-              <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div>
-          </div>
-          <!-- /.card-body -->
-
-          <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-        </form>
-      </div>
-      <!-- /.card -->
     </div>
-    <!--/.col (right) -->
-  </div>
 @stop
 
-@section('plugins.Datatables', true)
 @section('js')
-    <script type="text/javascript">
-        @if ($errors->any())
-            $('#createModal').modal('show');
-        @endif
-    </script>
-
     <script>
         $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["excel", "pdf", "print", "colvis"],
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('#province_id').on('change', function() {
+                $.ajax({
+                    url: '{{ route('dependent-dropdown.store') }}',
+                    method: 'POST',
+                    data: {
+                        id: $(this).val()
+                    },
+                    success: function(response) {
+                        $('#city_id').empty();
+
+                        $.each(response, function(id, name) {
+                            $('#city_id').append(new Option(name, id))
+                        })
+                    }
+                })
+            });
+            $('#city_id').on('change', function() {
+                $.ajax({
+                    url: '{{ route('dependent-dropdown.kecamatan') }}',
+                    method: 'POST',
+                    data: {
+                        id: $(this).val()
+                    },
+                    success: function(response) {
+                        $('#district_id').empty();
+
+                        $.each(response, function(id, name) {
+                            $('#district_id').append(new Option(name, id))
+                        })
+                    }
+                })
+            });
+            $('#district_id').on('change', function() {
+                $.ajax({
+                    url: '{{ route('dependent-dropdown.desa') }}',
+                    method: 'POST',
+                    data: {
+                        id: $(this).val()
+                    },
+                    success: function(response) {
+                        $('#village_id').empty();
+
+                        $.each(response, function(id, name) {
+                            $('#village_id').append(new Option(name, id))
+                        })
+                    }
+                })
             });
         });
     </script>
