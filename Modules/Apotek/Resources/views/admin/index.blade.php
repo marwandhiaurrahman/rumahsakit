@@ -120,16 +120,16 @@
                                                 </td>
                                                 <td>
                                                     <a class="btn btn-xs btn-warning"
-                                                        href="{{ route('admin.apotek.edit', $item->kode) }}"
+                                                        href="{{ route('admin.apotek.edit', $item->id) }}"
                                                         data-toggle="tooltip" title="Edit {{ $item->kode }}"><i
                                                             class=" fas fa-edit"></i></a>
-                                                    <a href="{{ route('admin.apotek.destroy', $item->id) }}"
+                                                    {{-- <a href="{{ route('admin.apotek.destroy', $item->id) }}"
                                                         class="btn btn-xs btn-danger"
                                                         onclick="return confirm('Are you sure you want to delete this item ?')"
                                                         data-toggle="tooltip" title="Hapus {{ $item->name }}"
                                                         data-method="delete">
                                                         <i class="fas fa-trash-alt"></i>
-                                                    </a>
+                                                    </a> --}}
                                                 </td>
                                             </tr>
                                         @endforeach

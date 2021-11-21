@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Modules\Pasien\Entities\Pasien;
 use Modules\Perawatan\Entities\Perawatan;
 use Modules\Poliklinik\Entities\Poliklinik;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ApotekController extends Controller
 {
@@ -18,7 +19,7 @@ class ApotekController extends Controller
      */
     public function index()
     {
-        $perawatans = Perawatan::where('status', '>=',2)->latest()->get();
+        $perawatans = Perawatan::where('status', '>=', 2)->latest()->get();
         $polikliniks = Poliklinik::get();
         // $pasien = Pasien::where('user_id', Auth::user()->id)->first();
         // dd($perawatans->first()->reseps->count());
@@ -62,12 +63,11 @@ class ApotekController extends Controller
      */
     public function edit($id)
     {
-        $perawatan = Perawatan::where('kode', $id)->first();
+        $perawatan = Perawatan::find($id)->first();
         $reseps = $perawatan->reseps;
-        $status = ['Menunggu antrian', 'Pengecekan oleh dokter', 'Pembayaran obat', 'Penyiapan obat', 'Pemngambilan', 'Selesai'];
+        $status = ['Menunggu konfirmasi dokter', 'Menyiapkan obat', 'Pengambilan Obat', 'Selesai'];
 
-        return view('rawatjalan::admin.edit', compact(['perawatan', 'reseps', 'status', ]))->with(['i' => 0]);
-        // return view('apotek::edit');
+        return view('apotek::admin.edit', compact(['perawatan', 'reseps', 'status',]))->with(['i' => 0]);
     }
 
     /**
@@ -78,7 +78,26 @@ class ApotekController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $perawatan = Perawatan::find($id);
+        // dd($request->all ());
+        if ($request->status == 0) {
+            foreach ($perawatan->reseps as $value) {
+                $value->update(['status' => 0]);
+            }
+        }
+        if ($request->status == 1) {
+            foreach ($perawatan->reseps as $value) {
+                $value->update(['status' => 1]);
+            }
+        }
+        if ($request->status == 2) {
+            foreach ($perawatan->reseps as $value) {
+                $value->update(['status' => 2]);
+            }
+        }
+
+        Alert::success('Success Info', 'Success Message');
+        return redirect()->route('admin.apotek.edit', $id);
     }
 
     /**
