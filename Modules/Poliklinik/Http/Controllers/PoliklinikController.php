@@ -61,7 +61,7 @@ class PoliklinikController extends Controller
      */
     public function show($id)
     {
-        $poliklinik = Poliklinik::where('kode', $id)->first();
+        $poliklinik = Poliklinik::find($id);
 
         $perawatans = Perawatan::where('poliklinik_id', $poliklinik->id)->latest()->get();
         // dd($perawatans);
@@ -77,7 +77,9 @@ class PoliklinikController extends Controller
      */
     public function edit($id)
     {
-        return view('poliklinik::edit');
+        $poliklinik = Poliklinik::find($id);
+        $dokters = Dokter::all();
+        return view('poliklinik::admin.edit', compact(['poliklinik', 'dokters']));
     }
 
     /**
@@ -88,7 +90,11 @@ class PoliklinikController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $poliklinik = Poliklinik::find($id);
+        $poliklinik->update($request->all());
+
+        Alert::success('Success Info', 'Success Message');
+        return redirect()->route('admin.poliklinik.index');
     }
 
     /**

@@ -78,16 +78,16 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a href="{{route('admin.poliklinik.show', $item->kode)}}" class="text-bold">
+                                                    <a href="{{route('admin.poliklinik.show', $item->id)}}" class="text-bold">
                                                         {{ $item->perawatans->where('status', 0)->count() }} Pasien</a>
                                                 </td>
                                                 <td>
-                                                    <a href="#" class="text-bold"> {{ $item->perawatans->count() }}
+                                                    <a href="{{route('admin.poliklinik.show', $item->id)}}" class="text-bold"> {{ $item->perawatans->count() }}
                                                         Pasien</a>
                                                 </td>
                                                 <td>
                                                     <a class="btn btn-xs btn-warning"
-                                                    href="{{ route('admin.rawat-jalan.edit', $item->id) }}"
+                                                    href="{{ route('admin.poliklinik.edit', $item->id) }}"
                                                     data-toggle="tooltip" title="Edit {{ $item->id }}"><i
                                                         class=" fas fa-edit"></i></a>
                                                 </td>

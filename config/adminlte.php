@@ -306,13 +306,7 @@ return [
         //     'url'  => '#',
         //     'icon' => 'fas fa-fw fa-clinic-medical',
         // ],
-        [
-            'text' => 'Poliklinik',
-            'can' => 'admin-role',
-            'url'  => 'admin/poliklinik',
-            'icon' => 'fas fa-fw fa-clinic-medical',
-            'active' => ['admin/poliklinik', 'regex:@^admin/poliklinik/[0-9]+$@', 'regex:@^admin/poliklinik/[0-9]/edit+$@', 'admin/poliklinik/create',]
-        ],
+
         [
             'text' => 'Apotek',
             'url'  => 'admin/apotek',
@@ -353,6 +347,13 @@ return [
         [
             'header' => 'DATABASE',
             'can' => 'admin-role',
+        ],
+        [
+            'text' => 'Poliklinik',
+            'can' => 'admin-role',
+            'url'  => 'admin/poliklinik',
+            'icon' => 'fas fa-fw fa-clinic-medical',
+            'active' => ['admin/poliklinik', 'regex:@^admin/poliklinik/[0-9]+$@', 'regex:@^admin/poliklinik/[0-9]/edit+$@', 'admin/poliklinik/create',]
         ],
         [
             'text' => 'Pasien',

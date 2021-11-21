@@ -1,86 +1,120 @@
 @extends('adminlte::page')
 
-@section('title', 'Anggota')
+@section('title', 'Edit Poliklinik')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Anggota Koperasi</h1>
+    <h1 class="m-0 text-dark">Edit Poliklinik</h1>
 @stop
 
 @section('content')
-<div class="row">
-    <!-- left column -->
-    <div class="col-md-12">
-      <!-- general form elements -->
-      <div class="card card-primary">
-        <div class="card-header">
-          <h3 class="card-title">Quick Example</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Detail Poliklinik</h3>
+                </div>
+                {!! Form::model($poliklinik, ['method' => 'PATCH', 'route' => ['admin.poliklinik.update', $poliklinik->id], 'files' => true]) !!}
+                <div class="card-body">
+                    @if ($errors->any())
+                        <div class="alert alert-danger col-md-12">
+                            <strong>Whoops!</strong> Ada kesalahan input.<br><br>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <div class="form-group">
+                        <label for="iKode">Kode</label>
+                        {!! Form::text('kode', null, ['class' => 'form-control' . ($errors->has('kode') ? ' is-invalid' : ''), 'id' => 'iKode', 'placeholder' => 'Kode', 'autofocus', 'required']) !!}
+                    </div>
+                    <div class="form-group">
+                        <label for="iNama">Nama</label>
+                        {!! Form::text('name', null, ['class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'id' => 'iNama', 'placeholder' => 'Nama Poliklinik', 'required']) !!}
+                    </div>
+                    <div class="form-group">
+                        <label for="iDokter" class="form-label">Dokter</label>
+                        <select name="dokter_id" id="iDokter" class="form-control">
+                            <option value="">Pilih Dokter</option>
+                            @foreach ($dokters as $item)
+                                <option value="{{ $item->id }}"
+                                    {{ $poliklinik->dokter_id == $item->id ? ' selected' : null }}>
+                                    {{ $item->kode }} {{ $item->user->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        {{-- <input type="checkbox"> --}}
+                        {!! Form::checkbox('cek', 1, null, ['class' => 'form-check-input', 'required', 'id' => 'exampleCheck1']) !!}
+                        <label class="form-check-label" for="exampleCheck1">Dengan ini menyatakan data telah sesuai</label>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
         </div>
-        <!-- /.card-header -->
-        <!-- form start -->
-        <form>
-          <div class="card-body">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <div class="form-group">
-              <label for="exampleInputFile">File input</label>
-              <div class="input-group">
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="exampleInputFile">
-                  <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                </div>
-                <div class="input-group-append">
-                  <span class="input-group-text">Upload</span>
-                </div>
-              </div>
-            </div>
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1">
-              <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div>
-          </div>
-          <!-- /.card-body -->
-
-          <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-        </form>
-      </div>
-      <!-- /.card -->
     </div>
-    <!--/.col (right) -->
-  </div>
 @stop
 
-@section('plugins.Datatables', true)
 @section('js')
-    <script type="text/javascript">
-        @if ($errors->any())
-            $('#createModal').modal('show');
-        @endif
-    </script>
-
     <script>
         $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["excel", "pdf", "print", "colvis"],
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('#province_id').on('change', function() {
+                $.ajax({
+                    url: '{{ route('dependent-dropdown.store') }}',
+                    method: 'POST',
+                    data: {
+                        id: $(this).val()
+                    },
+                    success: function(response) {
+                        $('#city_id').empty();
+
+                        $.each(response, function(id, name) {
+                            $('#city_id').append(new Option(name, id))
+                        })
+                    }
+                })
+            });
+            $('#city_id').on('change', function() {
+                $.ajax({
+                    url: '{{ route('dependent-dropdown.kecamatan') }}',
+                    method: 'POST',
+                    data: {
+                        id: $(this).val()
+                    },
+                    success: function(response) {
+                        $('#district_id').empty();
+
+                        $.each(response, function(id, name) {
+                            $('#district_id').append(new Option(name, id))
+                        })
+                    }
+                })
+            });
+            $('#district_id').on('change', function() {
+                $.ajax({
+                    url: '{{ route('dependent-dropdown.desa') }}',
+                    method: 'POST',
+                    data: {
+                        id: $(this).val()
+                    },
+                    success: function(response) {
+                        $('#village_id').empty();
+
+                        $.each(response, function(id, name) {
+                            $('#village_id').append(new Option(name, id))
+                        })
+                    }
+                })
             });
         });
     </script>
