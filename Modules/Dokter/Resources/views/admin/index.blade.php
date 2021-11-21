@@ -56,8 +56,9 @@
                                     <thead>
                                         <tr>
                                             <th>No.</th>
+                                            <th>Kode</th>
                                             <th>Name</th>
-                                            <th>Spesialis</th>
+                                            <th>Poliklinik</th>
                                             <th>Umur</th>
                                             <th>Gender</th>
                                             <th>Alamat</th>
@@ -69,8 +70,13 @@
                                         @foreach ($dokters as $item)
                                             <tr>
                                                 <td>{{ ++$i }}</td>
+                                                <td>{{ $item->kode }}</td>
                                                 <td>{{ $item->user->name }}</td>
-                                                <td>{{ $item->spesialis }}</td>
+                                                <td>
+                                                    @foreach ($item->polikliniks as $poliklinik)
+                                                        {{ $poliklinik->name }}
+                                                    @endforeach
+                                                </td>
                                                 <td>{{ Carbon\Carbon::parse($item->user->tanggal_lahir)->diffInYears(Carbon\Carbon::now()) }}
                                                     tahun</td>
                                                 <td>{{ $item->user->gender }}</td>
@@ -89,19 +95,19 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <form action="{{ route('admin.user.destroy', $item) }}"
+                                                    <form action="{{ route('admin.dokter.destroy', $item->id) }}"
                                                         method="POST">
                                                         @can('admin-role')
                                                             <a class="btn btn-xs btn-warning"
-                                                                href="{{ route('admin.user.edit', $item) }}"
-                                                                data-toggle="tooltip" title="Edit {{ $item->name }}"><i
+                                                                href="{{ route('admin.dokter.edit', $item->id) }}"
+                                                                data-toggle="tooltip" title="Edit {{ $item->kode }}"><i
                                                                     class=" fas fa-edit"></i></a>
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-xs btn-danger"
-                                                                data-toggle="tooltip" title="Hapus {{ $item->name }}">
-                                                                <i class="fas fa-trash-alt"
-                                                                    onclick="return confirm('Are you sure you want to delete this item ?')"></i>
+                                                                onclick="return confirm('Apakah anda ingin menghapus data dengan kode {{$item->kode}} ?')"
+                                                                data-toggle="tooltip" title="Hapus {{ $item->kode }}">
+                                                                <i class="fas fa-trash-alt"></i>
                                                             </button>
                                                         @endcan
                                                     </form>

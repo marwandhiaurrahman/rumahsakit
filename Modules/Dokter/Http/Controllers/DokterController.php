@@ -7,7 +7,10 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Laravolt\Indonesia\Models\City;
+use Laravolt\Indonesia\Models\District;
 use Laravolt\Indonesia\Models\Province;
+use Laravolt\Indonesia\Models\Village;
 use Modules\Dokter\Entities\Dokter;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -110,7 +113,26 @@ class DokterController extends Controller
      */
     public function edit($id)
     {
-        return view('dokter::edit');
+        $dokter = Dokter::find($id);
+        $provinces = Province::pluck('name', 'code');
+        $cities = City::where('province_code', $dokter->user->province_id)->pluck('name', 'code');
+        $districts = District::where('city_code', $dokter->user->city_id)->pluck('name', 'code');
+        $villages = Village::where('district_code', $dokter->user->district_id)->pluck('name', 'code');
+        $agamas = [
+            'Islam' => 'Islam',
+            'Protestan' => 'Protestan',
+            'Katolik' => 'Katolik',
+            'Hindu' => 'Hindu',
+            'Budha' => 'Budha',
+            'Konghucu' => 'Konghucu',
+        ];
+        $kawin = [
+            'Belum Kawin' => 'Belum Kawin',
+            'Kawin' => 'Kawin',
+            'Cerai Hidup' => 'Cerai Hidup',
+            'Cerai Mati' => 'Cerai Mati',
+        ];
+        return view('dokter::admin.edit', compact(['dokter', 'provinces', 'cities', 'districts', 'villages', 'agamas', 'kawin']));
     }
 
     /**
@@ -121,7 +143,12 @@ class DokterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $pasien = Dokter::find($id);
+        $pasien->update($request->all());
+        $pasien->user->update($request->all());
+
+        Alert::success('Success Info', 'Success Message');
+        return redirect()->route('admin.dokter.index');
     }
 
     /**
@@ -131,6 +158,14 @@ class DokterController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $dokter = Dokter::find($id);
+        if (empty($dokter->polikliniks)) {
+            $dokter->delete();
+            $dokter->user->delete();
+            Alert::success('Success Info', 'Success Message');
+        } else {
+            Alert::error('Success Info', 'Success Message');
+        }
+        return redirect()->route('admin.dokter.index');
     }
 }

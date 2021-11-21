@@ -104,7 +104,6 @@ class PasienController extends Controller
             'Cerai Hidup' => 'Cerai Hidup',
             'Cerai Mati' => 'Cerai Mati',
         ];
-        // dd($pasien);
         return view('pasien::admin.edit', compact(['pasien', 'provinces', 'cities', 'districts', 'villages', 'agamas', 'kawin']));
     }
 

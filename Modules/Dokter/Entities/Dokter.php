@@ -5,13 +5,14 @@ namespace Modules\Dokter\Entities;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Poliklinik\Entities\Poliklinik;
 
 class Dokter extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'status', 'kode','spesialis'
+        'user_id', 'status', 'kode', 'spesialis'
     ];
 
     protected static function newFactory()
@@ -39,5 +40,8 @@ class Dokter extends Model
     {
         return $this->user->provinsi();
     }
-
+    public function polikliniks()
+    {
+        return $this->hasMany(Poliklinik::class);
+    }
 }
