@@ -84,10 +84,10 @@
                                                             <label class="badge badge-warning">Menyiapkan obat</label>
                                                         @endif
                                                         @if ($item->reseps->first()->status == 2)
-                                                            <label class="badge badge-warning">Pengambilan obat</label>
+                                                            <label class="badge badge-success">Pengambilan obat</label>
                                                         @endif
                                                         @if ($item->reseps->first()->status == 3)
-                                                            <label class="badge badge-warning">Selesai</label>
+                                                            <label class="badge badge-success">Selesai</label>
                                                         @endif
                                                         <br>
                                                         @foreach ($item->reseps as $obat)

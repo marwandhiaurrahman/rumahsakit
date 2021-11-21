@@ -63,7 +63,7 @@ class ApotekController extends Controller
      */
     public function edit($id)
     {
-        $perawatan = Perawatan::find($id)->first();
+        $perawatan = Perawatan::find($id);
         $reseps = $perawatan->reseps;
         $status = ['Menunggu konfirmasi dokter', 'Menyiapkan obat', 'Pengambilan Obat', 'Selesai'];
 
@@ -94,6 +94,12 @@ class ApotekController extends Controller
             foreach ($perawatan->reseps as $value) {
                 $value->update(['status' => 2]);
             }
+        }
+        if ($request->status == 3) {
+            foreach ($perawatan->reseps as $value) {
+                $value->update(['status' => 3]);
+            }
+            $perawatan->update(['status'=>5]);
         }
 
         Alert::success('Success Info', 'Success Message');

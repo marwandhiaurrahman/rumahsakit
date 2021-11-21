@@ -148,10 +148,10 @@
                                             <label class="badge badge-warning">Menyiapkan obat</label>
                                         @endif
                                         @if ($item->status == 2)
-                                            <label class="badge badge-warning">Pengambilan obat</label>
+                                            <label class="badge badge-success">Pengambilan obat</label>
                                         @endif
                                         @if ($item->status == 3)
-                                            <label class="badge badge-warning">Selesai</label>
+                                            <label class="badge badge-success">Selesai</label>
                                         @endif
                                     </td>
                                     {{-- <td>
@@ -173,7 +173,6 @@
                                 <th>
                                     {{ money($reseps->sum('harga'), 'IDR') }}
                                 </th>
-                                <th></th>
                                 <th></th>
                             </tr>
                         </tfoot>
@@ -237,7 +236,7 @@
                                         <label class="badge badge-danger">Belum Valid</label>
                                     @endif
                                     @if ($transaksi->status == 1)
-                                        <label class="badge badge-warning">Valid</label>
+                                        <label class="badge badge-success">Valid</label>
                                     @endif
                                     @if ($transaksi->status == 2)
                                         <label class="badge badge-warning">Gagal</label>

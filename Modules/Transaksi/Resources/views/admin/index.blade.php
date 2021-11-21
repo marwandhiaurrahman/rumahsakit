@@ -89,10 +89,10 @@
                                                         <label class="badge badge-danger">Belum valid</label>
                                                     @endif
                                                     @if ($item->status == 1)
-                                                        <label class="badge badge-warning">Selesai</label>
+                                                        <label class="badge badge-success">Selesai</label>
                                                     @endif
                                                     @if ($item->status == 2)
-                                                        <label class="badge badge-warning">Gagal</label>
+                                                        <label class="badge badge-danger">Gagal</label>
                                                     @endif
                                                 </td>
                                                 <td>

@@ -74,11 +74,35 @@ class TransaksiController extends Controller
     public function update(Request $request, $id)
     {
         $transaksi = Transaksi::find($id);
+        $reseps = $transaksi->perawatan->reseps;
         // dd($request->all());
         $transaksi->update([
             'status' => $request->status,
             'keterangan' => $request->keterangan,
         ]);
+        if ($request->status == 0) {
+            $transaksi->perawatan->update([
+                'status' => 2,
+            ]);
+        }
+        if ($request->status == 1) {
+            $transaksi->perawatan->update([
+                'status' => 4,
+            ]);
+
+            foreach ($reseps as $value) {
+                // dd();
+                $value->obat->update([
+                    'stok'=>$value->obat->stok - $value->stok,
+                ]);
+            }
+
+        }
+        // if ($request->status == 1) {
+        //     $transaksi->perawatan->update([
+        //         'status' => 4,
+        //     ]);
+        // }
 
         Alert::success('Success Info', 'Success Message');
         return redirect()->route('admin.transaksi.edit', $id);
