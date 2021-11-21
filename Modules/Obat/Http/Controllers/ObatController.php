@@ -40,12 +40,12 @@ class ObatController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode'=>'required',
-            'name'=>'required',
-            'stok'=>'required',
-            'manfaat'=>'required',
-            'satuan'=>'required',
-            'harga'=>'required',
+            'kode' => 'required',
+            'name' => 'required',
+            'stok' => 'required',
+            'manfaat' => 'required',
+            'satuan' => 'required',
+            'harga' => 'required',
         ]);
 
         Obat::updateOrCreate($request->except(['_token']));
@@ -71,7 +71,11 @@ class ObatController extends Controller
      */
     public function edit($id)
     {
-        return view('obat::edit');
+        $obat = Obat::find($id);
+        // dd($obat);
+        dd($obat->reseps);
+
+        return view('obat::admin.edit', compact(['obat']));
     }
 
     /**
@@ -82,7 +86,11 @@ class ObatController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $obat = Obat::find($id);
+        $obat->update($request->all());
+
+        Alert::success('Success Info', 'Success Message');
+        return redirect()->route('admin.obat.index');
     }
 
     /**
@@ -92,6 +100,14 @@ class ObatController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $obat = Obat::find($id);
+        try {
+            $obat->delete();
+            Alert::success('Success Info', 'Success Message');
+        } catch (\Throwable $th) {
+            //throw $th;
+            Alert::error('Error Info', 'Error Message');
+        }
+        return redirect()->route('admin.obat.index');
     }
 }

@@ -17,4 +17,9 @@ class Obat extends Model
     {
         return \Modules\Obat\Database\factories\ObatFactory::new();
     }
+
+    public function reseps()
+    {
+        return $this->hasMany(Resep::class);
+    }
 }

@@ -29,7 +29,7 @@
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>{{ $obats->where('stok','>',0)->where('stok','<=',10)->count() }}</h3>
+                            <h3>{{ $obats->where('stok', '>', 0)->where('stok', '<=', 10)->count() }}</h3>
                             <p>Stok Obat Terbatas</p>
                         </div>
                         <div class="icon">
@@ -45,7 +45,7 @@
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3>{{ $obats->where('stok','==',0)->count() }}</h3>
+                            <h3>{{ $obats->where('stok', '==', 0)->count() }}</h3>
                             <p>Stok Obat Habis</p>
                         </div>
                         <div class="icon">
@@ -74,10 +74,10 @@
                                             <th>No.</th>
                                             <th>Kode Regis</th>
                                             <th>Nama</th>
-                                            <th>Stok</th>
                                             <th>Harga</th>
                                             <th>Manfaat</th>
                                             <th>Keterangan</th>
+                                            <th>Stok</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -88,10 +88,10 @@
                                                 <td>{{ ++$i }}</td>
                                                 <td>{{ $item->kode }}</td>
                                                 <td>{{ $item->name }}</td>
-                                                <td>{{ $item->stok }} {{ $item->satuan }}</td>
                                                 <td>{{ money($item->harga, 'IDR') }}</td>
                                                 <td>{{ $item->manfaat }}</td>
                                                 <td>{{ $item->keterangan }}</td>
+                                                <td>{{ $item->stok }} {{ $item->satuan }}</td>
                                                 <td>
                                                     @if ($item->stok > 10)
                                                         <label class="badge badge-success">Stok aman</label>
@@ -104,18 +104,19 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <form action="{{ route('admin.user.destroy', $item) }}" method="POST">
+                                                    <form action="{{ route('admin.obat.destroy', $item->id) }}"
+                                                        method="POST">
                                                         @can('admin-role')
                                                             <a class="btn btn-xs btn-warning"
-                                                                href="{{ route('admin.rawat-jalan.edit', $item->kode) }}"
+                                                                href="{{ route('admin.obat.edit', $item->id) }}"
                                                                 data-toggle="tooltip" title="Edit {{ $item->kode }}"><i
                                                                     class=" fas fa-edit"></i></a>
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-xs btn-danger"
-                                                                data-toggle="tooltip" title="Hapus {{ $item->name }}">
-                                                                <i class="fas fa-trash-alt"
-                                                                    onclick="return confirm('Are you sure you want to delete this item ?')"></i>
+                                                                onclick="return confirm('Apakah anda ingin menghapus data dengan kode {{ $item->kode }} ?')"
+                                                                data-toggle="tooltip" title="Hapus {{ $item->kode }}">
+                                                                <i class="fas fa-trash-alt"></i>
                                                             </button>
                                                         @endcan
                                                     </form>

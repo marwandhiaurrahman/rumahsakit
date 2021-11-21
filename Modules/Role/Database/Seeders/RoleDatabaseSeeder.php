@@ -29,16 +29,16 @@ class RoleDatabaseSeeder extends Seeder
         $permissions = Permission::find(1);
         $role->syncPermissions($permissions);
 
-        $role = Role::create(['name' => 'Pasien']);
-        $permissions = Permission::find(4);
+        $role = Role::create(['name' => 'Pengawas']);
+        $permissions = Permission::find(2);
         $role->syncPermissions($permissions);
 
         $role = Role::create(['name' => 'Dokter']);
         $permissions = Permission::find(3);
         $role->syncPermissions($permissions);
 
-        $role = Role::create(['name' => 'Pengawas']);
-        $permissions = Permission::find(2);
+        $role = Role::create(['name' => 'Pasien']);
+        $permissions = Permission::find(4);
         $role->syncPermissions($permissions);
     }
 }
