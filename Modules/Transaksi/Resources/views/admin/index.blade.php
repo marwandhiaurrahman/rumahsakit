@@ -111,6 +111,23 @@
                                             </tr>
                                         @endforeach
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="4">Total</th>
+                                            <th>
+                                                {{ money($transaksis->where('tipe', 'Debit')->sum('harga'), 'IDR') }}
+                                            </th>
+                                            <th>
+                                                {{ money($transaksis->where('tipe', 'Kredit')->sum('harga'), 'IDR') }}
+                                            </th>
+                                            <th>
+                                                {{ money($transaksis->where('tipe', 'Debit')->sum('harga')- $transaksis->where('tipe', 'Kredit')->sum('harga'), 'IDR') }}
+                                            </th>
+                                            <th>
+
+                                            </th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

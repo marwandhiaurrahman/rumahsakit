@@ -175,7 +175,7 @@
                                             <label class="badge badge-warning">Pengambilan obat</label>
                                         @endif
                                         @if ($item->status == 3)
-                                            <label class="badge badge-warning">Selesai</label>
+                                            <label class="badge badge-success">Selesai</label>
                                         @endif
                                     </td>
                                     <td>
