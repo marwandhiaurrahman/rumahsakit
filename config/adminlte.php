@@ -329,18 +329,19 @@ return [
         [
             'text' => 'Rekam Medis',
             'can' => 'admin-role',
-            'url'  => '#',
+            'url'  => 'admin/rekam-medis',
             'icon' => 'fas fa-fw fa-id-badge',
+            'active' => ['admin/rekam-medis', 'regex:@^admin/rekam-medis/[0-9]+$@', 'regex:@^admin/rekam-medis/[0-9]/edit+$@', 'admin/rekam-medis/create',]
         ],
         [
             'text' => 'Laporan Pelayanan',
-            'url'  => '#',
+            'url'  => 'admin/pelayanan',
             'can' => 'admin-role',
             'icon' => 'fas fa-fw fa-notes-medical',
         ],
         [
             'text' => 'Laporan Keuangan',
-            'url'  => '#',
+            'url'  => 'admin/laporan-keuangan',
             'can' => 'admin-role',
             'icon' => 'fas fa-fw fa-users',
         ],

@@ -7,10 +7,13 @@ use Modules\Obat\Http\Controllers\ObatController;
 use Modules\Obat\Http\Controllers\ResepObatController;
 use Modules\Pasien\Http\Controllers\PasienController;
 use Modules\Pasien\Http\Controllers\PasienUserController;
+use Modules\Perawatan\Http\Controllers\PelayananController;
+use Modules\Perawatan\Http\Controllers\RekamMedisController;
 use Modules\Poliklinik\Http\Controllers\PoliklinikController;
 use Modules\RawatJalan\Http\Controllers\RawatJalanController;
 use Modules\RawatJalan\Http\Controllers\RawatJalanPasienController;
 use Modules\Role\Http\Controllers\RoleController;
+use Modules\Transaksi\Http\Controllers\KeuanganController;
 use Modules\Transaksi\Http\Controllers\TransaksiController;
 use Modules\User\Http\Controllers\DependentDropdownController;
 use Modules\User\Http\Controllers\UserController;
@@ -60,6 +63,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('rawat-jalan', RawatJalanController::class);
     Route::resource('transaksi', TransaksiController::class);
     Route::resource('apotek', ApotekController::class);
+    Route::resource('rekam-medis', RekamMedisController::class);
+    Route::resource('pelayanan', PelayananController::class);
+    Route::resource('laporan-keuangan', KeuanganController::class);
 });
 
 Route::resource('pasien', PasienUserController::class)->only(['store','create']);

@@ -42,6 +42,24 @@
                         @endcan
                     </div>
                 </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-primary">
+                        <div class="inner">
+                            <p>Total Nilai Transaksi</p>
+                            <h4>
+                                {{ money($transaksis->where('tipe', 'Debit')->sum('harga')- $transaksis->where('tipe', 'Kredit')->sum('harga'), 'IDR') }}
+                            </h4>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-money-check-alt"></i>
+                        </div>
+                        @can('admin-role')
+                            <a href="#" class="small-box-footer" data-toggle="modal" data-target="#createModal">
+                                Total Transaksi <i class="fas fa-info-circle"></i>
+                            </a>
+                        @endcan
+                    </div>
+                </div>
             </div>
             <div class="card card-secondary">
                 <div class="card-header">
