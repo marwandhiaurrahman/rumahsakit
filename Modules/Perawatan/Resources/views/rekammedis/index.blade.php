@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Pasien')
+@section('title', 'Rekam Medis')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Pasien</h1>
+    <h1 class="m-0 text-dark">Rekam Medis</h1>
 @stop
 
 @section('content')
@@ -14,7 +14,7 @@
                     <div class="small-box bg-danger">
                         <div class="inner">
                             <h3>{{ $pasiens->count() }}</h3>
-                            <p>Pasien Sakit</p>
+                            <p>Rekam Medis Sakit</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-user-injured"></i>

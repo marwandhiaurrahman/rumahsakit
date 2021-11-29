@@ -45,6 +45,10 @@ Route::post('desa', [DependentDropdownController::class, 'desa'])
 
 Auth::routes();
 
+Route::get('daftar', function ($id) {
+
+});
+
 Route::get('/home', function () {
     return view('home');
 })->name('home')->middleware('auth');
