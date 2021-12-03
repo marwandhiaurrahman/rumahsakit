@@ -25,10 +25,10 @@ class DatabaseSeeder extends Seeder
             SeedsDatabaseSeeder::class,
             RoleDatabaseSeeder::class,
             UserDatabaseSeeder::class,
-            PasienDatabaseSeeder::class,
-            DokterDatabaseSeeder::class,
-            ObatDatabaseSeeder::class,
-            PoliklinikDatabaseSeeder::class,
+            // PasienDatabaseSeeder::class,
+            // DokterDatabaseSeeder::class,
+            // ObatDatabaseSeeder::class,
+            // PoliklinikDatabaseSeeder::class,
         ]);
     }
 }

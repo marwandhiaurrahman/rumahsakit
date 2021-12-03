@@ -3,9 +3,10 @@
 namespace Modules\Role\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Str;
+
 
 class RoleDatabaseSeeder extends Seeder
 {
@@ -16,29 +17,18 @@ class RoleDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $permissions = [
-            'admin-role',
-            'pengawas-role',
-            'dokter-role',
-            'pasien-role',
+        $roles = [
+            'Admin',
+            'Kasir',
+            'Keuangan',
+            'Pengawas',
+            'Dokter',
+            'Pasien',
         ];
-        foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+        foreach ($roles as $item) {
+            $permission = Permission::create(['name' => Str::slug($item)]);
+            $role = Role::create(['name' => $item]);
+            $role->syncPermissions($permission);
         }
-        $role = Role::create(['name' => 'Admin']);
-        $permissions = Permission::find(1);
-        $role->syncPermissions($permissions);
-
-        $role = Role::create(['name' => 'Pengawas']);
-        $permissions = Permission::find(2);
-        $role->syncPermissions($permissions);
-
-        $role = Role::create(['name' => 'Dokter']);
-        $permissions = Permission::find(3);
-        $role->syncPermissions($permissions);
-
-        $role = Role::create(['name' => 'Pasien']);
-        $permissions = Permission::find(4);
-        $role->syncPermissions($permissions);
     }
 }

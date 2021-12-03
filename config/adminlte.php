@@ -391,62 +391,59 @@ return [
         //     'url'  => '#',
         //     'icon' => 'fas fa-fw fa-stethoscope',
         // ],
+        ['header' => 'MENU ADMIN', 'can' => 'admin'],
+        [
+            'text'    => 'Database',
+            'icon'    => 'fas fa-database',
+            'can' => 'admin',
+            'submenu' => [
+                [
+                    'text' => 'Poliklinik',
+                    'icon'    => 'fas fa-clinic-medical',
+                    'url'  => 'admin/poliklinik',
+                    'can' => 'admin',
+                    'active' => ['admin/poliklinik', 'regex:@^admin/poliklinik/[0-9]+$@', 'regex:@^admin/poliklinik/[0-9]/edit+$@', 'admin/poliklinik/create',],
+
+                ],
+                [
+                    'text' => 'Dokter',
+                    'icon'    => 'fas fa-user-md',
+                    'url'  => 'admin/dokter',
+                    'can' => 'admin',
+                    'active' => ['admin/dokter', 'regex:@^admin/dokter/[0-9]+$@', 'regex:@^admin/dokter/[0-9]/edit+$@', 'admin/dokter/create',],
+
+                ],
+                [
+                    'text' => 'Pasien',
+                    'icon'    => 'fas fa-user-injured',
+                    'url'  => 'admin/pasien',
+                    'can' => 'admin',
+                    'active' => ['admin/pasien', 'regex:@^admin/pasien/[0-9]+$@', 'regex:@^admin/pasien/[0-9]/edit+$@', 'admin/pasien/create',],
+
+                ],
+                [
+                    'text' => 'User',
+                    'icon'    => 'fas fa-users',
+                    'url'  => 'admin/user',
+                    'can' => 'admin',
+                    'active' => ['admin/user', 'regex:@^admin/user/[0-9]+$@', 'regex:@^admin/user/[0-9]/edit+$@', 'admin/user/create',],
+
+                ],
+                [
+                    'text' => 'Role & Permission',
+                    'icon'    => 'fas fa-user-shield',
+                    'url'  => 'admin/role',
+                    'can' => 'admin',
+                    'active' => ['admin/role', 'regex:@^admin/role/[0-9]+$@', 'regex:@^admin/role/[0-9]/edit+$@', 'admin/role/create',],
+                ],
+            ],
+        ],
         ['header' => 'PENGATURAN AKUN'],
         [
             'text' => 'Profile',
             'url'  => 'profil',
             'icon' => 'fas fa-fw fa-user',
         ],
-        [
-            'text' => 'Data User',
-            'url'  => 'admin/user',
-            'can' => 'admin-role',
-            'icon' => 'fas fa-fw fa-users',
-        ],
-        [
-            'text' => 'Data Role',
-            'url'  => 'admin/role',
-            'can' => 'admin-role',
-            'icon' => 'fas fa-fw fa-id-card',
-        ],
-        // [
-        //     'text'    => 'multilevel',
-        //     'icon'    => 'fas fa-fw fa-share',
-        //     'submenu' => [
-        //         [
-        //             'text' => 'level_one',
-        //             'url'  => '#',
-        //         ],
-        //         [
-        //             'text'    => 'level_one',
-        //             'url'     => '#',
-        //             'submenu' => [
-        //                 [
-        //                     'text' => 'level_two',
-        //                     'url'  => '#',
-        //                 ],
-        //                 [
-        //                     'text'    => 'level_two',
-        //                     'url'     => '#',
-        //                     'submenu' => [
-        //                         [
-        //                             'text' => 'level_three',
-        //                             'url'  => '#',
-        //                         ],
-        //                         [
-        //                             'text' => 'level_three',
-        //                             'url'  => '#',
-        //                         ],
-        //                     ],
-        //                 ],
-        //             ],
-        //         ],
-        //         [
-        //             'text' => 'level_one',
-        //             'url'  => '#',
-        //         ],
-        //     ],
-        // ],
     ],
 
     /*

@@ -13,23 +13,21 @@
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>{{ Spatie\Permission\Models\Role::all()->count() }}</h3>
+                            <h3>{{ $roles->count() }}</h3>
                             <p>Role Terdaftar</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-id-card"></i>
                         </div>
-                        @can('admin-role')
                             <a href="#" class="small-box-footer" data-toggle="modal" data-target="#createModal">
                                 Tambah Role <i class="fas fa-plus-circle"></i>
                             </a>
-                        @endcan
                     </div>
                 </div>
             </div>
             <div class="card card-secondary">
                 <div class="card-header">
-                    <h3 class="card-title">Tabel Data User</h3>
+                    <h3 class="card-title">Tabel Data Role & Permission</h3>
                 </div>
                 <div class="card-body">
                     <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
@@ -42,7 +40,7 @@
                                             <th>No.</th>
                                             <th>Role</th>
                                             <th>Permissions</th>
-                                            {{-- <th>Action</th> --}}
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -51,18 +49,15 @@
                                                 <td>{{ ++$i }}</td>
                                                 <td>{{ $item->name }}</td>
                                                 <td>
-                                                    @if (!empty(
-            Spatie\Permission\Models\Permission::join('role_has_permissions', 'role_has_permissions.permission_id', '=', 'permissions.id')->where('role_has_permissions.role_id', $item->id)->get()
-        ))
-                                                        @foreach (Spatie\Permission\Models\Permission::join('role_has_permissions', 'role_has_permissions.permission_id', '=', 'permissions.id')->where('role_has_permissions.role_id', $item->id)->get()
-        as $v)
-                                                            <label class="badge badge-primary">{{ $v->name }}</label>
+                                                    @if (!empty($item->permissions))
+                                                        @foreach ($item->permissions as $permission)
+                                                            <label class="badge badge-success">
+                                                                {{ $permission->name }}</label>
                                                         @endforeach
                                                     @endif
                                                 </td>
-                                                {{-- <td>
+                                                <td>
                                                     <form action="{{ route('admin.role.destroy', $item) }}" method="POST">
-                                                        @can('admin-role')
                                                             <a class="btn btn-xs btn-warning"
                                                                 href="{{ route('admin.role.edit', $item) }}" data-toggle="tooltip"
                                                                 title="Edit {{ $item->name }}"><i
@@ -74,9 +69,8 @@
                                                                 <i class="fas fa-trash-alt"
                                                                     onclick="return confirm('Are you sure you want to delete this item ?')"></i>
                                                             </button>
-                                                        @endcan
                                                     </form>
-                                                </td> --}}
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -18,13 +18,13 @@ class RoleController extends Controller
      */
     function __construct()
     {
-        // $this->middleware('permission:admin-role|pengawas-role', ['only' => ['index']]);
-        // $this->middleware('permission:admin-role', ['only' => ['create', 'store', 'edit', 'update', 'destroy']]);
+        $this->middleware('permission:admin|pengawas', ['only' => ['index']]);
+        $this->middleware('permission:admin', ['only' => ['create', 'store', 'edit', 'update', 'destroy']]);
     }
 
     public function index()
     {
-        $roles = Role::latest()->get();
+        $roles = Role::with(['permissions'])->latest()->get();
         $permissions = Permission::get();
         return view('role::admin.index', compact(['roles', 'permissions']))->with(['i' => 0]);
     }
